@@ -1,7 +1,6 @@
 title: "Muhammad Zeeshan Arshad"
 description: "R&D Software Engineer at Advantest Europe GmbH"
 show_downloads: false
-google_analytics:
 theme: jekyll-theme-slate
 lang: "en"
 
@@ -12,11 +11,8 @@ author:
 
 # Social profiles (used for JSON-LD)
 social:
-  - name: "GitHub"
-    url: "https://github.com/ZsnZeeshan"
-  - name: "LinkedIn"
-    url: "https://www.linkedin.com/in/muhammad-zeeshan-arshad/"
-  - name: "orcid"
-    url: "https://orcid.org/0009-0000-6227-8153"
-  - name: "academia.edu"
-    url: "https://tum.academia.edu/MuhammadZeeshanArshad"
+  name: "Muhammad Zeeshan Arshad"
+  links:
+    - https://github.com/ZsnZeeshan
+    - https://www.linkedin.com/in/muhammad-zeeshan-arshad/
+    - https://orcid.org/0009-0000-6227-8153
