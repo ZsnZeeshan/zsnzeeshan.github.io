@@ -58,7 +58,7 @@ I am currently based in **Stuttgart, Germany**.
 - Providing architectural guidance and technical leadership  
 - Improving internal test frameworks and developer workflows  
 - Collaborating with hardware, QA, and product teams  
-- Contributing to soft IP evaluation for next‑gen multicore SoC test processors  
+- Contributing to soft IP evaluation for next‑gen multicore SoC processors  
 
 **R&D Software Developer** (2020–2025)  
 - Developed software components for the V93000 platform (C/C++, Bash, Ruby, PHP)  
