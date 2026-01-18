@@ -7,12 +7,11 @@
   <meta name="viewport" content="width=device-width,maximum-scale=2">
   <link rel="stylesheet" type="text/css" media="screen"
     href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  {% seo %}
-  {% include head-custom.html %}
 </head>
 
 <body>
-
+{% seo %}
+    {% include head-custom.html %}
   <!-- HEADER -->
   <div id="header_wrap" class="outer">
     <header class="inner" style="display:flex; justify-content:space-between; align-items:center;">

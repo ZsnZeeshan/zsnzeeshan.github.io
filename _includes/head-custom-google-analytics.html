@@ -10,49 +10,64 @@
     ga('send', 'pageview');
   </script>
 {% endif %} -->
-<!-- Google Analytics with cookie consent -->
+<!-- Google Analytics with explicit consent -->
 
 <div id="cookie-consent"
      style="position:fixed;bottom:0;left:0;right:0;
             background:#111;color:#fff;padding:12px;
-            font-size:14px;z-index:9999;display:none;">
+            font-size:14px;z-index:9999;display:none;text-align:center;">
   This site uses Google Analytics to monitor traffic.
-  <a href="/privacy.html" style="color:#9cf;"><br>Privacy policy</a>
-  <button id="accept-cookies" style="margin-left:10px;">Accept</button>
+  <a href="/privacy.html" style="color:#9cf; display:inline-block; margin-left:8px;">Privacy policy</a>
+  <button id="accept-cookies" style="margin-left:12px; padding:4px 8px;">Accept</button>
 </div>
 
 <script>
 (function () {
-  const consent = localStorage.getItem("ga_consent");
+  const consentKey = "ga_consent";
   const banner = document.getElementById("cookie-consent");
+  const consent = localStorage.getItem(consentKey);
 
+  // Show banner if no consent yet
   if (!consent) banner.style.display = "block";
 
+  // Handle Accept button
   document.getElementById("accept-cookies").onclick = function () {
-    localStorage.setItem("ga_consent", "granted");
+    localStorage.setItem(consentKey, "granted");
     banner.style.display = "none";
     loadGA();
   };
 
+  // Load GA if consent was already given
   if (consent === "granted") loadGA();
 
   function loadGA() {
-    if (window.gaLoaded) return;
+    if (window.gaLoaded) return; // Prevent double-loading
     window.gaLoaded = true;
 
+    // Optional: tell GA nothing is stored by default until consent
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied'
+    });
+
+    // Load GA script
     const s = document.createElement("script");
     s.src = "https://www.googletagmanager.com/gtag/js?id=G-3T5JF88VB0";
     s.async = true;
     document.head.appendChild(s);
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-
-    gtag("config", "G-3T5JF88VB0", {
+    // Initialize GA after script loads
+    gtag('js', new Date());
+    gtag('config', 'G-3T5JF88VB0', {
       anonymize_ip: true
+    });
+
+    // Update consent to allow analytics now
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted'
     });
   }
 })();
 </script>
-<!-- End Google Analytics with cookie consent -->
+<!-- End Google Analytics with explicit consent -->
