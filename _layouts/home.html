@@ -7,13 +7,7 @@
   <meta name="viewport" content="width=device-width,maximum-scale=2">
   <link rel="stylesheet" type="text/css" media="screen"
     href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  <title>{{ page.title | escape }}</title>
-</head>
-
-<body>
-{% seo %}
-    {% include head-custom.html %}
-  <!-- HEADER -->
+    <!-- HEADER -->
   <div id="header_wrap" class="outer">
     <header class="inner" style="display:flex; justify-content:space-between; align-items:center;">
 
@@ -47,6 +41,11 @@
     </header>
 
   </div>
+</head>
+
+<body>
+{% seo %}
+    {% include head-custom.html %}
 
 
   <!-- MAIN CONTENT -->
