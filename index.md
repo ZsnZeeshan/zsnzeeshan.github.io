@@ -2,7 +2,7 @@
 layout: home
 title: "Muhammad Zeeshan Arshad"
 subtitle: "R&D Software Engineer at Advantest Europe GmbH | Embedded & IoT Specialist | AI Enthusiast | Industry 4.0, SDR & ATE Expertise | QA, Testing & Automation | TUM Alumni"
-image: "/assets/images/profile.jpg"
+image: "/assets/images/icon.jpg"
 ---
 
 ## About Me
