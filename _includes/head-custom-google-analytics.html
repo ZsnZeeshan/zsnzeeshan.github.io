@@ -13,34 +13,41 @@
 
 <!-- NoCookieAnalytics (always loads, cookieless, GDPR-safe) -->
 <script async defer src="https://nocookieanalytics.com/latest.js"></script>
+
+<script>
+  window.nca_queue = window.nca_queue || [];
+  function nca_track_safe() {
+    window.nca_queue.push(arguments);
+  }
+</script>
+
 <script>
   // Track the initial page view for all visitors
-  nca_track('page_view');
-
+  nca_track_safe('page_view');
   // Track actual page path
-  nca_track('page_visited_' + window.location.pathname.replace(/\//g, '_'));
+  nca_track_safe('page_visited_' + window.location.pathname.replace(/\//g, '_'));
 
   // Track referrer if available
   if (document.referrer) {
-    nca_track('referrer_' + btoa(document.referrer));
+    nca_track_safe('referrer_' + btoa(document.referrer));
   }
 
   // track button clicks
   document.querySelectorAll('.track-click').forEach(btn => {
     btn.addEventListener('click', () => {
       const eventName = btn.dataset.event || 'button_click';
-      nca_track(eventName);
+      nca_track_safe(eventName);
     });
   });
 
   // Track session time (example)
     setTimeout(() => {
-      nca_track('time_on_page', 30); // user stayed 30 seconds
+      nca_track_safe('time_on_page', 30); // user stayed 30 seconds
     }, 30000);
 
   // Helper function for custom NoCookieAnalytics events
   function trackNCAEvent(name, value = 1) {
-    if (typeof nca_track === 'function') nca_track(name, value);
+    if (typeof nca_track === 'function') nca_track_safe(name, value);
   }
 
   // Optional: helper function to track GA events if consent given
