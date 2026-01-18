@@ -1,123 +1,170 @@
 ---
-layout: default
+layout: home
+title: "Muhammad Zeeshan Arshad"
+subtitle: "Senior Engineer · Embedded Systems · Signal Processing · IoT · ATE"
 ---
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+## About Me
 
-[Link to another page](./another-page.html).
+I am a research‑oriented engineer with experience across **Automatic Test Equipment**, **embedded systems**, **IoT technologies**, and **signal‑processing platforms**. My work focuses on understanding how complex hardware–software systems behave in real conditions, where timing, reliability, and computational efficiency are critical.
 
-There should be whitespace between paragraphs.
+I enjoy working where practical engineering meets real world problem solving. I build prototypes, study how systems behave under different conditions, and refine architectures through hands on experimentation and test based developemnt. My experience in embedded and IoT systems has guided my interest in **secure**, **resilient**, and **high integrity computing**, especially in areas where **reliability** and **correctness** are essential.
 
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+I am currently based in **Stuttgart, Germany**.
 
-# Header 1
+## Skills
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+**Programming:** C, C++, Python, Bash, VHDL, Ruby, PHP  
+**Hardware:** ATE (V93000), SoCs, microcontrollers, SDRs, sensors  
+**Protocols:** RS485, RS232, I2C, SPI, JTAG, NB‑IoT, BLE, LoRa, MQTT  
+**Tools:** KiCAD, Fusion 360, OpenOCD, GDB, Valgrind, Coverity, Sanitizers  
+**DevOps:** Git, Docker, Ansible, CMake, Bazel, Jira  
+**Data & Monitoring:** InfluxDB, Prometheus, Grafana, Node‑RED  
 
-## Header 2
+---
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
+<!-- ---
+## Research Interests
 
-### Header 3
+- Embedded & Cyber‑Physical Systems  
+- Automatic Test Equipment (ATE)  
+- IoT & Industrial Automation  
+- Signal Processing & SDR Systems  
+- Low‑Power Sensing and Edge Computing  
+- System Architecture & High‑Performance Software  
+-->
+---
 
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
+## Education
 
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
+### **Technical University of Munich (TUM)**  
+**M.Sc. Communications Engineering** (2016–2018)  
+- CGPA: **1.7 / 1.0**  
+- Thesis: *Design and Implementation of SmartRack Controller for Industrial IoT*
 
-#### Header 4
+### **NED University of Engineering & Technology**  
+**B.E. Electronics Engineering** (2012–2016)  
+- CGPA: **3.84 / 4.0**  
+- Ranked among the **top ten students** in the program
+- Final Project: *Smart Fireﬁghting UGV with Sensor Fusion and Secure Communication*
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
+<!-- ---
 
-##### Header 5
+## Employment
 
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
+### **Advantest Europe GmbH — Stuttgart, Germany**  
+**R&D Software Engineer** (2025–Present)  
+- Designing and integrating software features for the **V93000 ATE platform**  
+- Providing architectural guidance and technical leadership  
+- Improving internal test frameworks and developer workflows  
+- Collaborating with hardware, QA, and product teams  
+- Contributing to soft IP evaluation for next‑gen multicore SoC test processors  
 
-###### Header 6
+**R&D Software Developer** (2020–2025)  
+- Developed software components for the V93000 platform (C/C++, Bash, Ruby, PHP)  
+- Participated in release planning and QA cycles  
+- Coordinated with customer and hardware teams  
+- Contributed to CI/CD pipelines and internal tooling  
+- Architected scalable, multithreaded, low‑latency data‑link systems  
+- Implemented OpenOCD interface drivers  
+- Performed structured root‑cause analysis and customer‑scenario reproduction  
+- Authored technical documentation and design notes  
 
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
+---
 
-### There's a horizontal rule below this.
+### **nextLAP GmbH — Munich, Germany**
 
-* * *
+**Embedded Systems Engineer** (2018–2020)  
+- Prototyped and developed embedded systems for Industry 4.0  
+- Designed ultra‑low‑power display modules with energy‑harvesting  
+- Implemented ToF LiDAR sensing and real‑time signal processing  
+- Integrated NB‑IoT, Wi‑Fi, MES, and peripheral interfaces  
+- Supported debugging, field replication, and QA workflows  
+- Maintained CI/CD routines and OTA release processes  
 
-### Here is an unordered list:
+**Master Thesis Engineer** (2018)  
+- Designed the next‑generation **SmartRack Controller** (embedded IIoT gateway)  
+- Developed Linux‑based hardware integrations and application software  
+- Implemented custom drivers and rapid peripheral connectivity  
+- Delivered firmware updates and OTA‑capable bootloader  
 
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
+**Embedded Systems Intern** (2017–2018)  
+- Enhanced firmware for Industry 4.0 devices  
+- Improved reliability, performance, and documentation  
+- Automated firmware flows and sequence diagrams  
 
-### And an ordered list:
+**Part‑Time R&D Engineer** (2017)  
+- Designed and prototyped embedded IoT devices  
+- Engineered display hardware and firmware  
+- Built ultra‑low‑power indoor‑positioning modules  
+- Implemented diagnostic webserver and backward‑compatible integrations  
 
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
+---
 
-### And a nested list:
+### **Technical University of Munich — Applied Laser Spectroscopy Lab**  
+**Graduate Assistant** (2016–2017)  
+- Supported bacterial spectroscopy research  
+- Designed and simulated lock‑in amplifiers  
+- Integrated high‑sensitivity measurement systems in LabVIEW  
+- Automated spectroscopic measurement workflows  
 
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
+---
 
-### Small image
+### **DCC Pvt. Ltd — Karachi, Pakistan**  
+**R&D Electronics Engineer** (2016)  
+- R&D for **HFDF / Passive Radar** systems  
+- Implemented multi‑channel SDR synchronization  
+- Developed signal‑detection algorithms (MATLAB, GNU Radio)  
+- Optimized high‑performance DSP modules  
+- Automated RF subsystem calibration  
 
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
+---
 
-### Large image
+### **Silicon International Pvt. Ltd — Karachi, Pakistan**  
+**Reverse Engineering Intern** (2014)  
+- Hands‑on reverse engineering of industrial control systems  
+- Reconstructed AVR‑based generator feedback schematics  
+- Analyzed Z80‑based digital control systems  
 
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
+---
+## Selected Projects
+
+- **Machine Learning & CAD Automation (2020–2024)**  
+  Mentored engineers in ML, data operations, and defect detection; improved simulation workflows.
+
+- **Wireless Audio Application (2019)**  
+  Python + Qt application with MQTT control and directional sound triangulation.
+
+- **Autonomous Maze‑Solving Robot (2014)**  
+  Microcontroller‑based robot with reliable autonomous navigation.
+
+---
+## Hobbies
+
+- 3D printing  
+- Cycling  
+- History  
+- Automation  
+
+---
+-->
+
+---
+
+## Publications
+
+1. **M. Z. Arshad**, A. Müller, B. Schmidt, et al.  
+   *A novel heuristic approach to detect induced forming defects using point cloud scans.*  
+   **Design Society Proceedings**, 2024.  
+   DOI: [10.1017/pds.2024.75](http://dx.doi.org/10.1017/pds.2024.75)
+
+---
 
 
-### Definition lists can be used with HTML syntax.
+## Contact
 
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```
+- **Email:** zeeshan.arshad@tum.de  
+- **Location:** Stuttgart, Germany  
+- **ORCID:** [0000-0000-6227-8153](https://orcid.org/0000-0000-6227-8153)  
+- **GitHub:** [ZsnZeeshan](https://github.com/ZsnZeeshan)  
+- **LinkedIn:** [Muhammad Zeeshan Arshad](https://www.linkedin.com/in/muhammad-zeeshan-arshad/)
