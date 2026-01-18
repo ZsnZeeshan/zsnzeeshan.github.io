@@ -10,7 +10,15 @@ services:
     volumes:
       - ./:/srv/jekyll
 
-
+  cibuild:
+    image: jekyll/jekyll:latest
+    container_name: cibuild
+    working_dir: /srv/jekyll
+    volumes:
+      - ./:/srv/jekyll
+    tty: true
+    command: bash -c "bundle install && ./script/cibuild"
+    
 ###################################################
 # first time setup
 ###################################################
