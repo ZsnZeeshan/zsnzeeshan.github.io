@@ -1,7 +1,7 @@
 ---
 layout: home
 title: "Muhammad Zeeshan Arshad"
-subtitle: "Senior Engineer · Embedded Systems · Signal Processing · IoT · ATE"
+subtitle: "R&D Software Engineer at Advantest Europe GmbH | Embedded & IoT Specialist | AI Enthusiast | Industry 4.0, SDR & ATE Expertise | QA, Testing & Automation | TUM Alumni"
 ---
 
 ## About Me
