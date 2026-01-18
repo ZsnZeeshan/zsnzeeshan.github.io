@@ -7,11 +7,10 @@
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <link rel="stylesheet"
       href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-    <!-- <title>{{ page.title | escape }}</title> -->
+    {% seo %}
   </head>
 
   <body>
-  {% seo %}
     {% include head-custom.html %}
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
