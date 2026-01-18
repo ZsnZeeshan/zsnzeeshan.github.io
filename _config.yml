@@ -1,5 +1,18 @@
-title: Muhammad Zeeshan Arshad
-description: Personal website
+title: "Muhammad Zeeshan Arshad"
+description: "R&D Software Engineer at Advantest Europe GmbH"
+url: "http://https://zsnzeeshan.github.io"
 show_downloads: false
 google_analytics:
 theme: jekyll-theme-slate
+lang: "en"
+
+# Social profiles (used for JSON-LD)
+author: 
+    name: "Muhammad Zeeshan Arshad"
+
+social:
+  name: "Muhammad Zeeshan Arshad"
+  links:
+    - https://github.com/ZsnZeeshan
+    - https://www.linkedin.com/in/muhammad-zeeshan-arshad/
+    - https://orcid.org/0009-0000-6227-8153
