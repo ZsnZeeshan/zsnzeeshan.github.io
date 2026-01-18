@@ -2,8 +2,21 @@
 
 set -e
 
+# Build the Jekyll site
 bundle exec jekyll build
-bundle exec htmlproofer ./_site --check-html --check-sri
+
+# Run HTML-Proofer
+# Ignore the NCA script for SRI check since it has no provided integrity hash
+bundle exec htmlproofer ./_site \
+  --check-html \
+  --check-sri \
+  --ignore-urls 'https://nocookieanalytics.com/latest.js'
+
+# Run RuboCop for code/style linting
 bundle exec rubocop -D --config .rubocop.yml
+
+# Optional: your custom HTML validation script
 bundle exec script/validate-html
+
+# Build the Slate gem
 gem build jekyll-theme-slate.gemspec
