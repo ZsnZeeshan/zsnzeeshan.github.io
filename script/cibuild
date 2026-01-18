@@ -7,10 +7,7 @@ bundle exec jekyll build
 
 # Run HTML-Proofer
 # Ignore the NCA script for SRI check since it has no provided integrity hash
-bundle exec htmlproofer ./_site \
-  --check-html \
-  --check-sri \
-  --ignore-urls 'https://nocookieanalytics.com/latest.js'
+bundle exec htmlproofer ./_site --check-html --check-sri --url-ignore 'https://nocookieanalytics.com/latest.js'
 
 # Run RuboCop for code/style linting
 bundle exec rubocop -D --config .rubocop.yml
