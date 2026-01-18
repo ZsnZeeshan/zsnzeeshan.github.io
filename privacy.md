@@ -32,7 +32,8 @@ NoCookieAnalytics is a **cookieless, fully anonymous analytics service**. It col
 
 Providing consent is voluntary. You may withdraw your consent for Google Analytics at any time. Withdrawal will prevent further Google Analytics data from being collected.
 
-<a href="#" onclick="localStorage.removeItem('ga_consent'); location.reload();">
+<a href="javascript:void(0);" role="button"
+   onclick="localStorage.removeItem('ga_consent'); location.reload();">
 Withdraw Google Analytics consent
 </a>
 
