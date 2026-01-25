@@ -1,8 +1,17 @@
     <!-- FOOTER -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
         {% if site.github.is_project_page %}
         <!-- <p>Copyright {{ site.title | default: site.github.repository_name }} maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p> -->
         {% endif %}
-      </footer>
-    </div>
+    </footer>
+</div>
+
+<!-- Google Analytics with explicit consent -->
+<div id="cookie-consent" style="position:fixed;bottom:0;left:0;right:0;
+            background:#111;color:#fff;padding:12px;
+            font-size:14px;z-index:9999;display:none;text-align:center;">
+  This site uses Google Analytics to monitor traffic.
+  <a href="/privacy.html" style="color:#9cf; display:inline-block; margin-left:8px;">Privacy policy</a>
+  <button id="accept-cookies" style="margin-left:12px; padding:4px 8px;">Accept</button>
+</div>

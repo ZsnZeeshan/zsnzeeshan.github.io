@@ -1,5 +1,4 @@
 <!-- Disable Google Analytics w/o consent -->
-
 <!-- NoCookieAnalytics (always loads, cookieless, GDPR-safe) -->
 <script async defer src="https://nocookieanalytics.com/latest.js"></script>
 
@@ -21,23 +20,21 @@
   }
 
   // Track link clicks
-    document.addEventListener('click', event => {
-      const link = event.target.closest('a');
-      if (!link) return;
-      const eventName = link.dataset.event || 'link_click';
-      const href = link.getAttribute('href');
-      const text = link.textContent.trim();
-      //console.log("Tracked link click:", { eventName, href, text });
-      nca_track_safe(eventName);
-    });
-
-
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a');
+    if (!link) return;
+    const eventName = link.dataset.event || 'link_click';
+    const href = link.getAttribute('href');
+    const text = link.textContent.trim();
+    //console.log("Tracked link click:", { eventName, href, text });
+    nca_track_safe(eventName);
+  });
 
 
   // Track session time (example)
-    setTimeout(() => {
-      nca_track_safe('time_on_page', 30); // user stayed 30 seconds
-    }, 30000);
+  setTimeout(() => {
+    nca_track_safe('time_on_page', 30); // user stayed 30 seconds
+  }, 30000);
 
   // Helper function for custom NoCookieAnalytics events
   function trackNCAEvent(name, value = 1) {
@@ -52,52 +49,41 @@
   }
 </script>
 
-<!-- Google Analytics with explicit consent -->
-<div id="cookie-consent" style="position:fixed;bottom:0;left:0;right:0;
-            background:#111;color:#fff;padding:12px;
-            font-size:14px;z-index:9999;display:none;text-align:center;">
-  This site uses Google Analytics to monitor traffic.
-  <a href="/privacy.html" style="color:#9cf; display:inline-block; margin-left:8px;">Privacy policy</a>
-  <button id="accept-cookies" style="margin-left:12px; padding:4px 8px;">Accept</button>
-</div>
-
 <script>
-  (function () {
-    const consentKey = "ga_consent";
-    const banner = document.getElementById("cookie-consent");
-    const consent = localStorage.getItem(consentKey);
+document.addEventListener("DOMContentLoaded", function () {
+  const consentKey = "ga_consent";
+  const banner = document.getElementById("cookie-consent");
+  const consent = localStorage.getItem(consentKey);
 
-    // Show banner if no consent yet
-    if (!consent) banner.style.display = "block";
+  if (!consent) banner.style.display = "block";
 
-    // Handle Accept button
-    document.getElementById("accept-cookies").onclick = function () {
-      localStorage.setItem(consentKey, "granted");
-      banner.style.display = "none";
-      loadGA();
-    };
+  document.getElementById("accept-cookies").onclick = function () {
+    localStorage.setItem(consentKey, "granted");
+    banner.style.display = "none";
+    loadGA();
+  };
 
-    // Load GA if consent was already given
-    if (consent === "granted") loadGA();
+  if (consent === "granted") loadGA();
+  // Load GA iff consent was given
 
-    function loadGA() {
-      if (window.gaLoaded) return; // Prevent double-loading
-      window.gaLoaded = true;
+  function loadGA() {
+    if (window.gaLoaded) return;
+    window.gaLoaded = true;
 
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function () { dataLayer.push(arguments); }
-      gtag('consent', 'default', { 'analytics_storage': 'denied' });
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); }
+    gtag('consent', 'default', { 'analytics_storage': 'denied' });
 
-      // Load GA script
-      const s = document.createElement("script");
-      s.src = "https://www.googletagmanager.com/gtag/js?id=G-3T5JF88VB0";
-      s.async = true;
-      document.head.appendChild(s);
+    const s = document.createElement("script");
+    s.src = "https://www.googletagmanager.com/gtag/js?id=G-3T5JF88VB0";
+    s.async = true;
+    document.head.appendChild(s);
 
-      gtag('js', new Date());
-      gtag('config', 'G-3T5JF88VB0', { anonymize_ip: true });
-      gtag('consent', 'update', { analytics_storage: 'granted' });
-    }
-  })();
+    gtag('js', new Date());
+    gtag('config', 'G-3T5JF88VB0', { anonymize_ip: true });
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+  }
+});
+
 </script>
 <!-- End Google Analytics with explicit consent + NoCookieAnalytics -->
