@@ -19,16 +19,24 @@
     nca_track_safe('referrer_' + btoa(document.referrer));
   }
 
-  // Track link clicks on a or summary elements
-  document.addEventListener('click', event => {
-    const link = event.target.closest('a') || event.target.closest('summary');
-    if (!link) return;
-    const eventName = link.dataset.event || 'link_click';
-    const href = link.getAttribute('href');
-    const text = link.textContent.trim();
-    //console.log("Tracked link click:", { eventName, href, text });
-    nca_track_safe(eventName);
-  });
+document.addEventListener('click', event => {
+  // Detect clicks on <a> or <summary>
+  const link = event.target.closest('a, summary');
+  if (!link) return;
+
+  // Event name (customizable via data-event="...")
+  const eventName = link.dataset.event || 'link_click';
+
+  // Metadata
+  const href = link.tagName === 'A' ? link.getAttribute('href') : null;
+  const text = link.textContent.trim() || null;
+
+  //console.log('NCA Event:', eventName + href +text);
+  // Send flattened custom-event arguments
+  nca_track_safe(
+    eventName + href + text
+  );
+});
 
 
   // Track session time (example)
