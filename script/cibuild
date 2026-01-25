@@ -15,5 +15,8 @@ bundle exec rubocop -D --config .rubocop.yml
 # Optional: your custom HTML validation script
 bundle exec script/validate-html
 
+# TODO:Run Lighthouse CI against the built site 
+#lhci autorun --collect.staticDistDir=_site
+
 # Build the Slate gem
 gem build jekyll-theme-slate.gemspec
