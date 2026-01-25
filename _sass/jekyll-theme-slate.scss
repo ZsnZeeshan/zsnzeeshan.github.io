@@ -404,6 +404,28 @@ Full-Width Styles
   font-weight: 600;
 }
 
+.pdf-expand summary {
+  text-decoration: none;
+  color: #0F79D0;
+  text-shadow: none;
+
+  transition: color 0.5s ease;
+  transition: text-shadow 0.5s ease;
+  -webkit-transition: color 0.5s ease;
+  -webkit-transition: text-shadow 0.5s ease;
+  -moz-transition: color 0.5s ease;
+  -moz-transition: text-shadow 0.5s ease;
+  -o-transition: color 0.5s ease;
+  -o-transition: text-shadow 0.5s ease;
+  -ms-transition: color 0.5s ease;
+  -ms-transition: text-shadow 0.5s ease;
+}
+
+.pdf-expand summary:hover,
+.pdf-expand summary:focus {
+  text-decoration: underline;
+}
+
 /*******************************************************************************
 Small Device Styles
 *******************************************************************************/

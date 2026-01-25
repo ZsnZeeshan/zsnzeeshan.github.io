@@ -15,15 +15,6 @@ I enjoy working where practical engineering meets real world problem solving. I 
 
 I am currently based in **Stuttgart, Germany**.
 
-## Skills
-
-**Programming:** C, C++, Python, Bash, VHDL, Ruby, PHP  
-**Hardware:** ATE (V93000), SoCs, microcontrollers, SDRs, sensors  
-**Protocols:** RS485, RS232, I2C, SPI, JTAG, NB‑IoT, BLE, LoRa, MQTT  
-**Tools:** KiCAD, Fusion 360, OpenOCD, GDB, Valgrind, Coverity, Sanitizers  
-**DevOps:** Git, Docker, Ansible, CMake, Bazel, Jira  
-**Data & Monitoring:** InfluxDB, Prometheus, Grafana, Node‑RED  
-
 <!-- ---
 ## Research Interests
 

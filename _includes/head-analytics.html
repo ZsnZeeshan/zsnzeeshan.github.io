@@ -19,9 +19,9 @@
     nca_track_safe('referrer_' + btoa(document.referrer));
   }
 
-  // Track link clicks
+  // Track link clicks on a or summary elements
   document.addEventListener('click', event => {
-    const link = event.target.closest('a');
+    const link = event.target.closest('a') || event.target.closest('summary');
     if (!link) return;
     const eventName = link.dataset.event || 'link_click';
     const href = link.getAttribute('href');
