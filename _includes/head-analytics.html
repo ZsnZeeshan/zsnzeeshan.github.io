@@ -3,50 +3,51 @@
 <script async defer src="https://nocookieanalytics.com/latest.js"></script>
 
 <script>
+  // Queue for events before NCA loads
   window.nca_queue = window.nca_queue || [];
   function nca_track_safe() {
+    //console.log('NCA Event:', arguments);
     window.nca_queue.push(arguments);
   }
-</script>
 
-<script>
-  // Track the initial page view for all visitors
-  nca_track_safe('page_view');
-  // Track actual page path
-  nca_track_safe('page_visited_' + window.location.pathname.replace(/\//g, '_'));
-  // Track referrer if available
-  if (document.referrer) {
-    nca_track_safe('referrer_' + btoa(document.referrer));
-  }
+  // Generate a unique ID for this page view
+  const pageViewId = crypto.randomUUID();
 
-document.addEventListener('click', event => {
-  // Detect clicks on <a> or <summary>
-  const link = event.target.closest('a, summary');
-  if (!link) return;
-
-  // Event name (customizable via data-event="...")
-  const eventName = link.dataset.event || 'link_click';
-
-  // Metadata
-  const href = link.tagName === 'A' ? link.getAttribute('href') : null;
-  const text = link.textContent.trim() || null;
-
-  //console.log('NCA Event:', eventName + href +text);
-  // Send flattened custom-event arguments
+  // Track the page view with metadata
   nca_track_safe(
-    eventName + href + text
+    'page_view',
+    pageViewId,
+    window.location.href,
+    document.referrer || null
   );
-});
 
+  // Track link + summary clicks
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a, summary');
+    if (!link) return;
+
+    const eventName = link.dataset.event || 'link_click';
+    const href = link.tagName === 'A' ? link.getAttribute('href') : null;
+    const text = link.textContent.trim() || null;
+
+    nca_track_safe(
+      eventName,
+      pageViewId,
+      href,
+      text
+    );
+  });
 
   // Track session time (example)
   setTimeout(() => {
-    nca_track_safe('time_on_page', 30); // user stayed 30 seconds
+    nca_track_safe('time_on_page', 30);
   }, 30000);
 
   // Helper function for custom NoCookieAnalytics events
   function trackNCAEvent(name, value = 1) {
-    if (typeof nca_track === 'function') nca_track_safe(name, value);
+    if (typeof nca_track === 'function') {
+      nca_track_safe(name, value);
+    }
   }
 
   // Optional: helper function to track GA events if consent given
