@@ -3,7 +3,7 @@ layout: home
 navTag: Home
 order: 0
 title: "Muhammad Zeeshan Arshad"
-subtitle: "R&D Software Engineer at Advantest Europe GmbH | Embedded & IoT Specialist | AI Enthusiast | Industry 4.0, SDR & ATE Expertise | QA, Testing & Automation | TUM Alumni"
+description: "R&D Software Engineer at Advantest Europe GmbH | Embedded & IoT Specialist | AI Enthusiast | Industry 4.0, SDR & ATE Expertise | QA, Testing & Automation | TUM Alumni"
 image: "/assets/images/icon2.jpg"
 ---
 
@@ -24,8 +24,6 @@ I am currently based in **Stuttgart, Germany**.
 **DevOps:** Git, Docker, Ansible, CMake, Bazel, Jira  
 **Data & Monitoring:** InfluxDB, Prometheus, Grafana, Node‑RED  
 
----
-
 <!-- ---
 ## Research Interests
 
@@ -36,7 +34,7 @@ I am currently based in **Stuttgart, Germany**.
 - Low‑Power Sensing and Edge Computing  
 - System Architecture & High‑Performance Software  
 -->
----
+
 
 ## Education
 
@@ -152,22 +150,10 @@ I am currently based in **Stuttgart, Germany**.
 ---
 -->
 
----
 
 ## Publications
 
 1. **M. Z. Arshad**, A. Müller, B. Schmidt, et al.  
    *A novel heuristic approach to detect induced forming defects using point cloud scans.*  
    **Design Society Proceedings**, 2024.  
-   DOI: [10.1017/pds.2024.75](http://dx.doi.org/10.1017/pds.2024.75)
-
----
-
-
-## Contact
-
-- **Email:** zeeshan.arshad@tum.de  
-- **Location:** Stuttgart, Germany
-- **ORCID:** [0009-0000-6227-8153](https://orcid.org/0009-0000-6227-8153)  
-- **GitHub:** [ZsnZeeshan](https://github.com/ZsnZeeshan)  
-- **LinkedIn:** [Muhammad Zeeshan Arshad](https://www.linkedin.com/in/muhammad-zeeshan-arshad/)
+   **DOI**: [10.1017/pds.2024.75](http://dx.doi.org/10.1017/pds.2024.75)

@@ -3,6 +3,8 @@ layout: home
 navTag: Privacy Policy
 title: Privacy Policy
 order: 4
+description: This page specifies the privacy policy of this website regarding monitoring of traffic based on GPDR compliance
+image: "/assets/images/icon2.jpg"
 ---
 
 ## Data Analytics
