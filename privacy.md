@@ -1,6 +1,8 @@
 ---
 layout: home
+navTag: Privacy Policy
 title: Privacy Policy
+order: 4
 ---
 
 ## Data Analytics

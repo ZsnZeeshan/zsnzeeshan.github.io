@@ -280,6 +280,13 @@ Full-Width Styles
   margin: 0 auto;
 }
 
+.navi {
+  position: relative;
+  max-width: 640px;
+  padding: 10px 10px;
+  margin: 0 auto;
+}
+
 #forkme_banner {
   display: block;
   position: absolute;
@@ -305,20 +312,20 @@ Full-Width Styles
 }
 
 #header_wrap .inner {
-  padding: 50px 10px 30px 10px;
+  padding: 20px 10px 5px 10px;
 }
 
 #project_title {
   margin: 0;
   color: #fff;
-  font-size: 42px;
+  font-size: 36px;
   font-weight: 700;
   text-shadow: #111 0px 0px 10px;
 }
 
 #project_tagline {
   color: #fff;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
   background: none;
   text-shadow: #111 0px 0px 10px;
@@ -377,7 +384,24 @@ Full-Width Styles
   background: #212121;
 }
 
+.profile-link img {
+  width: 100px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: 0.3s;
+}
 
+.profile-link:hover img,
+.profile-link:focus img {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+  transform: scale(1.03);
+}
+
+.navi a {
+  color: #f2f2f2;
+  font-weight: 600;
+}
 
 /*******************************************************************************
 Small Device Styles

@@ -15,19 +15,24 @@
   nca_track_safe('page_view');
   // Track actual page path
   nca_track_safe('page_visited_' + window.location.pathname.replace(/\//g, '_'));
-
   // Track referrer if available
   if (document.referrer) {
     nca_track_safe('referrer_' + btoa(document.referrer));
   }
 
-  // track button clicks
-  document.querySelectorAll('.track-click').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const eventName = btn.dataset.event || 'button_click';
+  // Track link clicks
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a');
+      if (!link) return;
+      const eventName = link.dataset.event || 'link_click';
+      const href = link.getAttribute('href');
+      const text = link.textContent.trim();
+      //console.log("Tracked link click:", { eventName, href, text });
       nca_track_safe(eventName);
     });
-  });
+
+
+
 
   // Track session time (example)
     setTimeout(() => {

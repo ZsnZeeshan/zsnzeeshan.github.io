@@ -8,8 +8,14 @@
           {% endif %}
           <h1 id="project_title">{{ site.title | default:
             site.github.repository_name }}</h1>
-          <h2 id="project_tagline">{{ site.description | default:
-            site.github.project_tagline }}</h2>
+          <h1 id="project_tagline">{{ site.description | default:
+            site.github.project_tagline }}</h1>
+        </div>
+        <a href="https://www.linkedin.com/in/muhammad-zeeshan-arshad/" target="_blank" class="profile-link">
+          <img 
+            src="assets/images/profile.jpg" 
+            alt="Muhammad Zeeshan Arshad's profile photo">
+        </a>
 
           {% if site.show_downloads %}
           <!--
@@ -19,8 +25,14 @@
       </section>
       -->
           {% endif %}
-        </div>
-        <img src="assets/images/profile.jpg" alt="profile"
-          style="width:150px; aspect-ratio:1/1; border-radius:50%; object-fit:cover;">
-      </header>
+    </header>
+            <section class="navi" style="display:flex; justify-content:baseline; gap:15px; flex-wrap:wrap;">
+                {% assign nav_pages = site.pages | sort: "order" %}
+                {% for page in nav_pages %}
+                {% if page.nav_exclude != true and page.navTag %}
+                <li><a href="{{ page.url | relative_url }}" target="_self">{{ page.navTag }}</a></li>
+                {% endif %}
+                {% endfor %}
+            
+            </section>
     </div>
