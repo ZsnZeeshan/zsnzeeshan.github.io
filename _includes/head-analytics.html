@@ -7,7 +7,7 @@
 
   // Helper function for custom NoCookieAnalytics events
   function trackNCAEvent(name, value = 1) {
-    if (typeof nca_track === 'function') {
+    if (typeof nca_event === 'function') {
       nca_event(name, value);
     }
   }
