@@ -20,7 +20,7 @@ image: "/assets/images/icon2.jpg"
   <summary>Contact Form</summary>
 
   <iframe 
-    src="https://docs.google.com/forms/d/e/1FAIpQLSds-OZX9BOVR5sxh6GATk45k0_Ty0z8bR72SBhiIVA2BLtbuQ/viewform?embedded=true" 
+    src="https://docs.google.com/forms/d/e/1FAIpQLSds-OZX9BOVR5sxh6GATk45k0_Ty0z8bR72SBhiIVA2BLtbuQ/viewform?embedded=true&hl=en" 
     width="100%" 
     height="1024" 
     frameborder="0" 
