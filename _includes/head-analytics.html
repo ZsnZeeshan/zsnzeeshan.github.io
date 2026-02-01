@@ -2,71 +2,112 @@
 <!-- NoCookieAnalytics (always loads, cookieless, GDPR-safe) -->
 <script async defer src="https://nocookieanalytics.com/latest.js"></script>
 
+{% if site.debug %}
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-
-  // Helper function for custom NoCookieAnalytics events
-  function trackNCAEvent(name, value = 1) {
-    if (typeof nca_event === 'function') {
-      nca_event(name, value);
-    }
+  function debugLog(...args) {
+    // Log debug messages in debug mode
+    console.log("DEBUG:", ...args);
   }
-
-  // Track link clicks
-  document.addEventListener('click', event => {
-    const link = event.target.closest('a, summary');
-    if (!link) return;
-
-    const eventName = link.dataset.event || 'click';
-    const text = eventName + '.' + link.textContent.trim().replace(/\s+/g, '-');
-    //console.log("Tracking NCA event:", text);
-    nca_event(text);
-  });
-});
-
-  // Optional: helper function to track GA events if consent given
-  function trackGAEvent(name, value = 1) {
-    if (window.gtag && localStorage.getItem('ga_consent') === 'granted') {
-      gtag('event', name, { value: value });
-    }
+  function send_nca_event(...args) {
+    debugLog("Sending NCA event:", ...args);
+    nca_event(...args);
+  }
+  function send_gtag(...args) {
+    debugLog("Sending gtag:", ...args);
+    gtag(...args);
   }
 </script>
+{% else %}
+<script>
+  function debugLog() {
+    // No-op in production
+  }
+  function send_nca_event(...args) {
+    // No-op in production
+    nca_event(...args);
+  }
+  function send_gtag(...args) {
+    // No-op in production
+    gtag(...args);
+  }
+</script>
+{% endif %}
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const consentKey = "ga_consent";
-  const banner = document.getElementById("cookie-consent");
-  const consent = localStorage.getItem(consentKey);
-
-  if (!consent) banner.style.display = "block";
-
-  document.getElementById("accept-cookies").onclick = function () {
-    localStorage.setItem(consentKey, "granted");
-    banner.style.display = "none";
-    loadGA();
-  };
-
-  if (consent === "granted") loadGA();
-  // Load GA iff consent was given
-
+  // Function to load Google Analytics script
   function loadGA() {
+    debugLog("Loading Google Analytics...");
     if (window.gaLoaded) return;
     window.gaLoaded = true;
 
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () { dataLayer.push(arguments); }
-    gtag('consent', 'default', { 'analytics_storage': 'denied' });
+    send_gtag('consent', 'default', { 'analytics_storage': 'denied' });
 
     const s = document.createElement("script");
     s.src = "https://www.googletagmanager.com/gtag/js?id=G-3T5JF88VB0";
     s.async = true;
     document.head.appendChild(s);
 
-    gtag('js', new Date());
-    gtag('config', 'G-3T5JF88VB0', { anonymize_ip: true });
-    gtag('consent', 'update', { analytics_storage: 'granted' });
+    send_gtag('js', new Date());
+    send_gtag('config', 'G-3T5JF88VB0', { anonymize_ip: true });
+    send_gtag('consent', 'update', { analytics_storage: 'granted' });
   }
-});
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const consentKey = "ga_consent";
+    const banner = document.getElementById("cookie-consent");
+    const consent = localStorage.getItem(consentKey);
+    const acceptBtn = document.getElementById("accept-cookies");
+    const withdrawBtn = document.getElementById("withdraw-consent");
+    // Helper function for custom NoCookieAnalytics events
+    function trackNCAEvent(name, value = 1) {
+      debugLog("Tracking NCA event:", name, value);
+      if (typeof nca_event === 'function') {
+        send_nca_event(name, value);
+      }
+    }
+
+    // Track link clicks
+    document.addEventListener('click', event => {
+      //debugLog("Click event:", event);
+      const link = event.target.closest('a, summary');
+      if (!link) return; // Not a link or summary
+      const eventName = link.dataset.event || 'click';
+      const text = eventName + '.' + link.textContent.trim().replace(/\s+/g, '-');
+      send_nca_event(text);
+    });
+
+    //track on click buttons
+    // Show banner if no consent given yet
+    if (!consent) {
+      banner.style.display = "block";
+    }
+    debugLog("GA consent status:", consent);
+
+    if (acceptBtn) {
+      acceptBtn.addEventListener("click", event => {
+        event.preventDefault();
+        banner.style.display = "none";
+        send_nca_event("cookie-consent-accepted");
+        localStorage.setItem(consentKey, "granted");
+        loadGA();
+      });
+    }
+
+    if (withdrawBtn) {
+      withdrawBtn.addEventListener("click", event => {
+        event.preventDefault();
+        localStorage.removeItem(consentKey);
+        banner.style.display = "block";
+        send_nca_event("cookie-consent-withdrawn");
+        debugLog("GA consent withdrawn by user.");
+      });
+    }
+
+  });
 
 </script>
 <!-- End Google Analytics with explicit consent + NoCookieAnalytics -->
