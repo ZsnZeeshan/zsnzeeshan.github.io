@@ -4,27 +4,11 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Initialize NoCookieAnalytics
-  // Generate a unique ID for this page view
-  const pageViewId = crypto.randomUUID();
-
-  // TODO: Track the page view with metadata
-  nca_track(
-    'page_view',
-    pageViewId,
-    window.location.href,
-    document.referrer || null
-  );
-    
-  // Track session time
-  setTimeout(() => {
-    nca_event('time_on_page', pageViewId, window.location.href, 30);
-  }, 30000);
 
   // Helper function for custom NoCookieAnalytics events
   function trackNCAEvent(name, value = 1) {
     if (typeof nca_track === 'function') {
-      nca_track(name, pageViewId, value);
+      nca_event(name, value);
     }
   }
 
@@ -37,9 +21,8 @@
     const href = link.getAttribute('href');
     const text = link.textContent.trim() || null;
 
-    nca_track(
+    nca_event(
       eventName,
-      pageViewId,
       href,
       text
     );
