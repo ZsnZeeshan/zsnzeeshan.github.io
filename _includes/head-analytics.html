@@ -18,7 +18,8 @@
     if (!link) return;
 
     const eventName = link.dataset.event || 'click';
-    const text = eventName + '.' + link.textContent.trim();
+    const text = eventName + '.' + link.textContent.trim().replace(/\s+/g, '-');
+    //console.log("Tracking NCA event:", text);
     nca_event(text);
   });
 });
