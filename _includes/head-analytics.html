@@ -18,10 +18,9 @@
     if (!link) return;
 
     const eventName = link.dataset.event || 'link_click';
-    const text = link.textContent.trim() || null;
+    const text = eventName + '/' + link.textContent.trim();
     nca_event(
-      eventName,
-      text
+      eventName
     );
   });
 });
