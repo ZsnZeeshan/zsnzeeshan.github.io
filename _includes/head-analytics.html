@@ -17,8 +17,8 @@
     const link = event.target.closest('a, summary');
     if (!link) return;
 
-    const eventName = link.dataset.event || 'link_click';
-    const text = eventName + '/' + link.textContent.trim();
+    const eventName = link.dataset.event || 'click';
+    const text = eventName + '.' + link.textContent.trim();
     nca_event(text);
   });
 });
