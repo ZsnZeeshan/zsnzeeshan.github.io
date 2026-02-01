@@ -15,44 +15,34 @@ I enjoy working where practical engineering meets real world problem solving. I 
 
 I am currently based in **Stuttgart, Germany**.
 
-<!-- ---
-## Research Interests
-
-- Embedded & Cyber‑Physical Systems  
-- Automatic Test Equipment (ATE)  
-- IoT & Industrial Automation  
-- Signal Processing & SDR Systems  
-- Low‑Power Sensing and Edge Computing  
-- System Architecture & High‑Performance Software  
--->
-
 
 ## Education
-
-### **Technical University of Munich (TUM)**  
+### [**Technical University of Munich (TUM)**](https://www.tum.de/en/)
 **M.Sc. Communications Engineering** (2016–2018)  
 - CGPA: **1.7 / 1.0**  
 - Thesis: *Design and Implementation of SmartRack Controller for Industrial IoT*
 
-### **NED University of Engineering & Technology**  
+### [**NED University of Engineering & Technology**](https://www.neduet.edu.pk/)
 **B.E. Electronics Engineering** (2012–2016)  
 - CGPA: **3.84 / 4.0**  
 - Ranked among the **top ten students** in the program
 - Final Project: *Smart Fireﬁghting UGV with Sensor Fusion and Secure Communication*
 
-<!-- ---
+
 
 ## Employment
-
-### **Advantest Europe GmbH — Stuttgart, Germany**  
-**R&D Software Engineer** (2025–Present)  
+### [**Advantest Europe GmbH — Böblingen, Germany**](https://www.advantest.com)
+**R&D Software Engineer** (February 2025 – Present)  
 - Designing and integrating software features for the **V93000 ATE platform**  
 - Providing architectural guidance and technical leadership  
 - Improving internal test frameworks and developer workflows  
 - Collaborating with hardware, QA, and product teams  
-- Contributing to soft IP evaluation for next‑gen multicore SoC processors  
+- Supporting evaluation of soft IP relevant to future multicore processing architectures
+- Driving innovation by improving development processes, tools, and platform capabilities 
 
-**R&D Software Developer** (2020–2025)  
+
+### [**Aquilius Research GmbH — Böblingen, Germany**](https://www.linkedin.com/company/aquilius)
+**R&D Software Developer** (July 2020 – January 2025)  
 - Developed software components for the V93000 platform (C/C++, Bash, Ruby, PHP)  
 - Participated in release planning and QA cycles  
 - Coordinated with customer and hardware teams  
@@ -62,48 +52,44 @@ I am currently based in **Stuttgart, Germany**.
 - Performed structured root‑cause analysis and customer‑scenario reproduction  
 - Authored technical documentation and design notes  
 
----
-
-### **nextLAP GmbH — Munich, Germany**
-
-**Embedded Systems Engineer** (2018–2020)  
+### [**nextLAP GmbH — Munich, Germany**](https://www.nextlap.io)
+**Embedded Systems Engineer** (October 2018 – June 2020)  
 - Prototyped and developed embedded systems for Industry 4.0  
 - Designed ultra‑low‑power display modules with energy‑harvesting  
 - Implemented ToF LiDAR sensing and real‑time signal processing  
-- Integrated NB‑IoT, Wi‑Fi, MES, and peripheral interfaces  
+- Integrated NB‑IoT, Wi‑Fi, and other interfaces  
 - Supported debugging, field replication, and QA workflows  
 - Maintained CI/CD routines and OTA release processes  
+- Utilized Amazon EC2 instances to automate remote installation, updates, and system monitoring
 
-**Master Thesis Engineer** (2018)  
+**Master Thesis Engineer** (April 2018 - September 2018)  
 - Designed the next‑generation **SmartRack Controller** (embedded IIoT gateway)  
 - Developed Linux‑based hardware integrations and application software  
 - Implemented custom drivers and rapid peripheral connectivity  
 - Delivered firmware updates and OTA‑capable bootloader  
 
-**Embedded Systems Intern** (2017–2018)  
+**Embedded Systems Intern** (November 2017 – Feburary 2018)  
 - Enhanced firmware for Industry 4.0 devices  
 - Improved reliability, performance, and documentation  
 - Automated firmware flows and sequence diagrams  
 
-**Part‑Time R&D Engineer** (2017)  
+**Part‑Time R&D Engineer** (March 2017 - October 2017)  
 - Designed and prototyped embedded IoT devices  
 - Engineered display hardware and firmware  
 - Built ultra‑low‑power indoor‑positioning modules  
 - Implemented diagnostic webserver and backward‑compatible integrations  
 
 ---
-
-### **Technical University of Munich — Applied Laser Spectroscopy Lab**  
-**Graduate Assistant** (2016–2017)  
+### [**Technical University of Munich — Applied Laser Spectroscopy Lab**](https://www.ch.nat.tum.de/hydrochemistry/home)
+**Graduate Assistant** (December 2016 – February 2017)  
 - Supported bacterial spectroscopy research  
 - Designed and simulated lock‑in amplifiers  
 - Integrated high‑sensitivity measurement systems in LabVIEW  
 - Automated spectroscopic measurement workflows  
 
 ---
-
-### **DCC Pvt. Ltd — Karachi, Pakistan**  
-**R&D Electronics Engineer** (2016)  
+### [**DCC Pvt. Ltd — Karachi, Pakistan**](https://www.datacommunicationandcontrol.com)
+**R&D Electronics Engineer** (May 2016 - September 2016)  
 - R&D for **HFDF / Passive Radar** systems  
 - Implemented multi‑channel SDR synchronization  
 - Developed signal‑detection algorithms (MATLAB, GNU Radio)  
@@ -112,13 +98,13 @@ I am currently based in **Stuttgart, Germany**.
 
 ---
 
-### **Silicon International Pvt. Ltd — Karachi, Pakistan**  
-**Reverse Engineering Intern** (2014)  
+### [**Silicon International Pvt. Ltd — Karachi, Pakistan**](https://www.siliconpk.com)
+**Reverse Engineering Intern** (May 2014 - June 2014)  
 - Hands‑on reverse engineering of industrial control systems  
 - Reconstructed AVR‑based generator feedback schematics  
-- Analyzed Z80‑based digital control systems  
+- Analyzed Z80‑based digital control system 
 
----
+<!-- ---
 ## Selected Projects
 
 - **Machine Learning & CAD Automation (2020–2024)**  
@@ -140,6 +126,17 @@ I am currently based in **Stuttgart, Germany**.
 
 ---
 -->
+
+## Research Interests
+
+- Embedded & Cyber‑Physical Systems  
+- IoT & Industrial Automation  
+- Automatic Test Equipment (ATE)  
+- Signal Processing & SDR Systems  
+- Low‑Power Sensing and Edge Computing  
+- System Architecture & High‑Performance Software  
+- Data Analytics & Cloud Computing
+
 
 
 ## Publications
