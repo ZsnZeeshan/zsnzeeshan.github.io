@@ -3,52 +3,48 @@
 <script async defer src="https://nocookieanalytics.com/latest.js"></script>
 
 <script>
-  // Queue for events before NCA loads
-  window.nca_queue = window.nca_queue || [];
-  function nca_track_safe() {
-    //console.log('NCA Event:', arguments);
-    window.nca_queue.push(arguments);
-  }
-
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize NoCookieAnalytics
   // Generate a unique ID for this page view
   const pageViewId = crypto.randomUUID();
 
-  // Track the page view with metadata
-  nca_track_safe(
+  // TODO: Track the page view with metadata
+  nca_event(
     'page_view',
     pageViewId,
     window.location.href,
     document.referrer || null
   );
+    
+  // Track session time
+  setTimeout(() => {
+    nca_event('time_on_page', pageViewId, window.location.href, 30);
+  }, 30000);
 
-  // Track link + summary clicks
+  // Helper function for custom NoCookieAnalytics events
+  function trackNCAEvent(name, value = 1) {
+    if (typeof nca_track === 'function') {
+      nca_event(name, pageViewId, value);
+    }
+  }
+
+  // Track link clicks
   document.addEventListener('click', event => {
     const link = event.target.closest('a, summary');
     if (!link) return;
 
     const eventName = link.dataset.event || 'link_click';
-    const href = link.tagName === 'A' ? link.getAttribute('href') : null;
+    const href = link.getAttribute('href');
     const text = link.textContent.trim() || null;
 
-    nca_track_safe(
+    nca_event(
       eventName,
       pageViewId,
       href,
       text
     );
   });
-
-  // Track session time (example)
-  setTimeout(() => {
-    nca_track_safe('time_on_page', 30);
-  }, 30000);
-
-  // Helper function for custom NoCookieAnalytics events
-  function trackNCAEvent(name, value = 1) {
-    if (typeof nca_track === 'function') {
-      nca_track_safe(name, value);
-    }
-  }
+});
 
   // Optional: helper function to track GA events if consent given
   function trackGAEvent(name, value = 1) {
