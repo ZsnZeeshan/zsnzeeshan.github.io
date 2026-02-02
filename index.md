@@ -108,12 +108,10 @@ I am currently based in **Stuttgart, Germany**.
 
 ---
 ## Hobbies
-
 - 3D printing  
 - Cycling  
 - History  
 - Automation  
-
 ---
 -->
 
