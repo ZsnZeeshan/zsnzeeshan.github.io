@@ -3,7 +3,7 @@ layout: home
 navTag: Skills
 order: 2
 title: Skills
-description: Skills of Muhammad Zeeshan Arshad
+description: Showcasing practical expertise in embedded systems, IoT, automation, cloud tools, and software engineering, emphasizing hands‑on development, problem‑solving, and modern technical capabilities.
 image: "/assets/images/icon2.jpg"
 ---
 

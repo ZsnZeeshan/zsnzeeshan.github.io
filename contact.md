@@ -1,9 +1,9 @@
 ---
 layout: home
 navTag: Contact
-order: 1
+order: 3
 title: Contact
-description: Muhammad Zeeshan Arshad can be contacted over the following details as provided on this page
+description: Reach out for engineering collaborations, project discussions, or professional inquiries; connect directly to discuss embedded systems, IoT solutions, software development, and technical opportunities.
 image: "/assets/images/icon2.jpg"
 ---
 

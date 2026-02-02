@@ -105,16 +105,6 @@ I am currently based in **Stuttgart, Germany**.
 - Analyzed Z80‑based digital control system 
 
 <!-- ---
-## Selected Projects
-
-- **Machine Learning & CAD Automation (2020–2024)**  
-  Mentored engineers in ML, data operations, and defect detection; improved simulation workflows.
-
-- **Wireless Audio Application (2019)**  
-  Python + Qt application with MQTT control and directional sound triangulation.
-
-- **Autonomous Maze‑Solving Robot (2014)**  
-  Microcontroller‑based robot with reliable autonomous navigation.
 
 ---
 ## Hobbies
