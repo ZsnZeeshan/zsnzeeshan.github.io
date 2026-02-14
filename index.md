@@ -2,9 +2,12 @@
 layout: home
 navTag: Home
 order: 0
-title: "Muhammad Zeeshan Arshad"
-description: "R&D Software Engineer at Advantest Europe GmbH | Embedded & IoT Specialist | AI Enthusiast | Industry 4.0, SDR & ATE Expertise | QA, Testing & Automation | TUM Alumni"
-image: "/assets/images/icon2.jpg"
+title: "Muhammad Zeeshan Arshad - R&D Software Engineer"
+description: "Portfolio of Muhammad Zeeshan Arshad, R&D Software Engineer at Advantest. Specialist in Embedded Systems, IoT, ATE, and Industry 4.0 based in Stuttgart, Germany."
+image:
+  path: "/assets/images/icon2.jpg"
+  alt: "Personal Logo of Muhammad Zeeshan Arshad"
+last_modified_at: 2026-02-14
 ---
 
 ## About Me

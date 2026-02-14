@@ -4,7 +4,9 @@ navTag: Contact
 order: 3
 title: Contact
 description: Reach out for engineering collaborations, project discussions, or professional inquiries; connect directly to discuss embedded systems, IoT solutions, software development, and technical opportunities.
-image: "/assets/images/icon2.jpg"
+image:
+  path: "/assets/images/icon2.jpg"
+  alt: "Personal Logo of Muhammad Zeeshan Arshad"
 ---
 
 ## Contact

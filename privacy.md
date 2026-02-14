@@ -4,7 +4,11 @@ navTag: Privacy Policy
 title: Privacy Policy
 order: 4
 description: This page specifies the privacy policy of this website regarding monitoring of traffic based on GPDR compliance
-image: "/assets/images/icon2.jpg"
+image:
+  path: "/assets/images/icon2.jpg"
+  alt: "Personal Logo of Muhammad Zeeshan Arshad"
+sitemap: false
+last_modified_at: 2026-02-13
 ---
 
 ## Data Analytics
