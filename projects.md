@@ -5,10 +5,10 @@ order: 2
 title: Engineering Projects Portfolio
 description: Portfolio of embedded systems, IoT, and automation projects by Muhammad Zeeshan Arshad. Featuring Smart Firefighting UGV, IoT Audio platforms, and robotics.
 image:
-  path: "/assets/images/icon2.jpg"
+  path: "/assets/images/icon2.webp"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
 last_modified_at: 2026-02-14
-permalink: /projects/
+#permalink: /projects/
 ---
 ## Projects
 

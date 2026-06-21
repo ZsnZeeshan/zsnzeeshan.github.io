@@ -5,7 +5,7 @@ order: 3
 title: Contact
 description: Reach out for engineering collaborations, project discussions, or professional inquiries; connect directly to discuss embedded systems, IoT solutions, software development, and technical opportunities.
 image:
-  path: "/assets/images/icon2.jpg"
+  path: "/assets/images/icon2.webp"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
 ---
 

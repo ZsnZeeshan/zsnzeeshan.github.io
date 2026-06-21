@@ -5,7 +5,7 @@ title: Privacy Policy
 order: 4
 description: This page specifies the privacy policy of this website regarding monitoring of traffic based on GPDR compliance
 image:
-  path: "/assets/images/icon2.jpg"
+  path: "/assets/images/icon2.webp"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
 sitemap: false
 last_modified_at: 2026-02-13
