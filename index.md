@@ -12,7 +12,7 @@ last_modified_at: 2026-07-04
 
 ## About Me
 
-Hardware software engineer with 8+ years of experience taking complex embedded and IoT systems from prototype to production. I've worked across the full stack including custom SoCs, embedded firmware, IIoT gateways, and cloud analytics, with a focus on reliability, performance, and practical problem solving. Based in Stuttgart, Germany.
+Hardware software engineer with 8+ years of experience taking complex embedded and IoT systems from prototype to production. I've worked across the full stack including custom SoCs, embedded firmware, IIoT gateways, and cloud analytics, with a focus on reliability, performance, and practical problem solving.
 
 
 ## Education
@@ -79,17 +79,6 @@ Hardware software engineer with 8+ years of experience taking complex embedded a
 - Reconstructed AVR‑based generator feedback schematics  
 - Analyzed Z80‑based digital control system 
 
-<!-- ---
-
----
-## Hobbies
-- 3D printing  
-- Cycling  
-- History  
-- Automation  
----
--->
-
 ## Research Interests
 
 - Embedded & Cyber‑Physical Systems  
@@ -108,3 +97,9 @@ Hardware software engineer with 8+ years of experience taking complex embedded a
    *A novel heuristic approach to detect induced forming defects using point cloud scans.*  
    **Design Society Proceedings**, 2024.  
    **DOI**: [10.1017/pds.2024.75](http://dx.doi.org/10.1017/pds.2024.75)
+
+## Hobbies
+- 3D printing
+- Cycling
+- Fishing
+- Automation
