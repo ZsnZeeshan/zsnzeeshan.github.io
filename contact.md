@@ -10,11 +10,38 @@ image:
 ---
 
 ## Contact
+
 - **Email:** [zeeshan.arshad@tum.de](mailto:zeeshan.arshad@tum.de)
 - **ORCID:** [0009-0000-6227-8153](https://orcid.org/0009-0000-6227-8153)  
 - **GitHub:** [ZsnZeeshan](https://github.com/ZsnZeeshan)  
 - **LinkedIn:** [Muhammad Zeeshan Arshad](https://www.linkedin.com/in/muhammad-zeeshan-arshad/)
 - **Location:** Stuttgart, Germany
+
+---
+
+*If your lab or research team is working on a project that demands deep technical insight and robust engineering, let's connect. For roles, collaborations, or general inquiries — I'm always open to interesting conversations and new opportunities.*
+
+<details class="expand" markdown="1">
+  <summary>Technical Advisory & R&D</summary>
+
+I am passionate for advancing technology from initial concept to robust production. Beyond my primary professional focus, I provide technical advisory and R&D support for teams tackling complex, creative challenges at the intersection of hardware, software, and systems engineering.
+
+I focus on delivering measurable improvements, whether optimizing test throughput, boosting code coverage, or streamlining R&D workflows, with a track record of building high-reliability systems.
+
+### How I Can Support Your Project
+
+*   **R&D Strategy & Architecture:** Providing guidance on system architecture, technology stack selection, and optimizing R&D workflows for high-performance and reliable software.
+*   **Collaborative Innovation:** Partnering on exploratory projects in **Industrial IoT**, **SIL/HIL Development & Testing**, **High-Performance Computing**, and **Edge Computing**, helping teams bridge the gap between academic research and scalable industrial deployment.
+*   **Technical Deep-Dives:** Assisting research scientists, Principal Investigators, and development teams in navigating the complexities of modern **Embedded Systems**, **Signal Processing**, and **Cyber-Physical architectures**.
+
+### Engagement Approach
+
+My approach is rooted in deep academic understanding and extensive industrial experience. I am particularly interested in supporting projects that:
+- Require advanced problem-solving in resource-constrained or high-reliability environments.
+- Involve bridging the gap between theoretical research models and practical, stable system implementation (e.g., prototype-to-production pipelines).
+- Focus on advancing **AI/ML in embedded systems**, **novel sensing technologies**, or **resilient cyber-physical systems**.
+
+</details>
 
 ---
 

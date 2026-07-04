@@ -34,4 +34,32 @@ I am always open to exploring new ideas, professional inquiries, or collaborativ
 - **Theme:** [Jekyll-Theme-Slate](https://github.com/pages-themes/slate)
 - **Hosting:** GitHub Pages
 
+## Local Development & Testing
+To run the website locally and test changes, I use Docker. This ensures that the local environment matches the GitHub Pages build process.
+
+### Running the Development Server
+You can start a local development server by running:
+
+```bash
+docker compose up jekyll
+```
+This will serve the site at `http://localhost:4000`.
+
+### Running Tests / Verification
+If you need to verify the build process or run a test container directly:
+
+```bash
+docker compose up cibuild
+```
+
+For first-time setup or dependency updates, run:
+
+```bash
+docker compose run jekyll bundle install
+```
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
 ---

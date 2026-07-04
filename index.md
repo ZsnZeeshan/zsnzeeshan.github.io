@@ -5,9 +5,9 @@ order: 0
 title: "Muhammad Zeeshan Arshad - R&D Software Engineer"
 description: "Portfolio of Muhammad Zeeshan Arshad, R&D Software Engineer at Advantest. Specialist in Embedded Systems, IoT, ATE, and Industry 4.0 based in Stuttgart, Germany."
 image:
-  path: "/assets/images/icon2.jpg"
+  path: "/assets/images/icon2.webp"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
-last_modified_at: 2026-02-14
+last_modified_at: 2026-07-04
 ---
 
 ## About Me
