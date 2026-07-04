@@ -2,8 +2,8 @@
 layout: home
 navTag: Home
 order: 0
-title: "Muhammad Zeeshan Arshad - R&D Software Engineer"
-description: "Portfolio of Muhammad Zeeshan Arshad, R&D Software Engineer at Advantest. Specialist in Embedded Systems, IoT, ATE, and Industry 4.0 based in Stuttgart, Germany."
+title: "Muhammad Zeeshan Arshad - R&D Hardware Software Engineer"
+description: "R&D Engineer at Advantest | 8+ Yrs Experience | Embedded & IoT Specialist | Edge AI & Signal Processing | C/C++, Python | Industry 4.0, SDR & ATE | TUM Alumni"
 image:
   path: "/assets/images/icon2.webp"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
@@ -12,11 +12,7 @@ last_modified_at: 2026-07-04
 
 ## About Me
 
-I am a research‑oriented engineer with experience across **Automatic Test Equipment**, **embedded systems**, **IoT technologies**, and **signal‑processing platforms**. My work focuses on understanding how complex hardware–software systems behave in real conditions, where timing, reliability, and computational efficiency are critical.
-
-I enjoy working where practical engineering meets real world problem solving. I build prototypes, study how systems behave under different conditions, and refine architectures through hands on experimentation and test based developemnt. My experience in embedded and IoT systems has guided my interest in **secure**, **resilient**, and **high integrity computing**, especially in areas where **reliability** and **correctness** are essential.
-
-I am currently based in **Stuttgart, Germany**.
+Hardware software engineer with 8+ years of experience taking complex embedded and IoT systems from prototype to production. I've worked across the full stack including custom SoCs, embedded firmware, IIoT gateways, and cloud analytics, with a focus on reliability, performance, and practical problem solving. Based in Stuttgart, Germany.
 
 
 ## Education
@@ -29,58 +25,34 @@ I am currently based in **Stuttgart, Germany**.
 **B.E. Electronics Engineering** (2012–2016)  
 - CGPA: **3.84 / 4.0**  
 - Ranked among the **top ten students** in the program
-- Final Project: *Smart Fireﬁghting UGV with Sensor Fusion and Secure Communication*
+- Final Project: *Smart Firefighting UGV with Sensor Fusion and Secure Communication*
 
 
 
 ## Employment
 ### [**Advantest Europe GmbH — Böblingen, Germany**](https://www.advantest.com)
 **R&D Software Engineer** (February 2025 – Present)  
-- Designing and integrating software features for the **V93000 ATE platform**  
-- Providing architectural guidance and technical leadership  
-- Improving internal test frameworks and developer workflows  
-- Collaborating with hardware, QA, and product teams  
-- Supporting evaluation of soft IP relevant to future multicore processing architectures
-- Driving innovation by improving development processes, tools, and platform capabilities 
-
+- Leading cross-functional developer teams, providing technical guidance and architectural direction
+- Driving R&D initiatives from concept through integration, ensuring alignment with customer requirements
+- Managing QA strategy and validation across software modules to maintain high reliability standards
+- Driving AI-assisted development workflows and modern engineering toolchains
+- Defining and refining modular test frameworks, promoting test-driven development to improve software quality and team productivity
 
 ### [**Aquilius Research GmbH — Böblingen, Germany**](https://www.linkedin.com/company/aquilius)
-**R&D Software Developer** (July 2020 – January 2025)  
-- Developed software components for the V93000 platform (C/C++, Bash, Ruby, PHP)  
-- Participated in release planning and QA cycles  
-- Coordinated with customer and hardware teams  
-- Contributed to CI/CD pipelines and internal tooling  
-- Architected scalable, multithreaded, low‑latency data‑link systems  
-- Implemented OpenOCD interface drivers  
-- Performed structured root‑cause analysis and customer‑scenario reproduction  
-- Authored technical documentation and design notes  
+**Senior Embedded Engineer** (July 2020 – January 2025)  
+- Designed and delivered embedded systems and High Performance Compute (HPC) logic, leveraging parallelism and multithreaded architectures for low-latency data processing
+- Improved test code coverage by **80%** to ensure high quality and reliability
+- Conducted root-cause analysis to identify underlying code defects and permanently resolve critical issues
+- Architected scalable, multithreaded data-link systems and developed hardware-near interface drivers
+- Enhanced custom tooling, CI/CD pipelines, and technical documentation
 
 ### [**nextLAP GmbH — Munich, Germany**](https://www.nextlap.io)
-**Embedded Systems Engineer** (October 2018 – June 2020)  
-- Prototyped and developed embedded systems for Industry 4.0  
-- Designed ultra‑low‑power display modules with energy‑harvesting  
-- Implemented ToF LiDAR sensing and real‑time signal processing  
-- Integrated NB‑IoT, Wi‑Fi, and other interfaces  
-- Supported debugging, field replication, and QA workflows  
-- Maintained CI/CD routines and OTA release processes  
-- Utilized Amazon EC2 instances to automate remote installation, updates, and system monitoring
-
-**Master Thesis Engineer** (April 2018 - September 2018)  
-- Designed the next‑generation **SmartRack Controller** (embedded IIoT gateway)  
-- Developed Linux‑based hardware integrations and application software  
-- Implemented custom drivers and rapid peripheral connectivity  
-- Delivered firmware updates and OTA‑capable bootloader  
-
-**Embedded Systems Intern** (November 2017 – Feburary 2018)  
-- Enhanced firmware for Industry 4.0 devices  
-- Improved reliability, performance, and documentation  
-- Automated firmware flows and sequence diagrams  
-
-**Part‑Time R&D Engineer** (March 2017 - October 2017)  
-- Designed and prototyped embedded IoT devices  
-- Engineered display hardware and firmware  
-- Built ultra‑low‑power indoor‑positioning modules  
-- Implemented diagnostic webserver and backward‑compatible integrations  
+**Embedded Systems Engineer** (March 2017 – June 2020)  
+- Sole embedded engineer driving full-lifecycle development from prototyping through testing and release
+- Optimized Industrial IoT solutions for strict cost and power constraints through strategic hardware selection and efficient software design
+- Implemented ToF LiDAR sensing, real-time signal processing, and ultra-low-power display modules with energy harvesting
+- Designed and prototyped the 2nd generation **SmartRack Controller** (Linux-based IIoT gateway) with OTA bootloaders and secure concurrent processing
+- Engineered embedded prototype proof of concepts, low-power IoT devices, and BMS for e-bike, ensuring backward compatibility and supporting functional safety initiatives
 
 ---
 ### [**Technical University of Munich — Applied Laser Spectroscopy Lab**](https://www.ch.nat.tum.de/hydrochemistry/home)
