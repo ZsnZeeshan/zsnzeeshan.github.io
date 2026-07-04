@@ -7,20 +7,21 @@ description: Showcasing practical expertise in embedded systems, IoT, automation
 image:
   path: "/assets/images/icon2.webp"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
-last_modified_at: 2026-02-14
+last_modified_at: 2026-07-04
 ---
 
-## Skills
+## Technical Skills & Tools
 
-**Programming:** C, C++, Python, Bash, VHDL, Ruby, PHP  
-**Hardware:** ATE (V93000), SoCs, microcontrollers, SDRs, sensors  
-**Protocols:** RS485, RS232, I2C, SPI, JTAG, NB‑IoT, BLE, LoRa, MQTT  
-**Tools:** KiCAD, Fusion 360, OpenOCD, GDB, Valgrind, Coverity, Sanitizers  
-**DevOps:** Git, Docker, Ansible, CMake, Bazel, Jira  
-**Data & Monitoring:** InfluxDB, Prometheus, Grafana, Node‑RED  
+**Software Development:** Assembly, Bash, C, C++, Linux System Programming, Python, Ruby, VHDL  
+**Hardware & Test Engineering:** Custom SoCs, Oscilloscopes, Semiconductor Testers (V93000), Spectrum/Logic Analyzers, Microcontrollers, SDRs  
+**Communication Protocols:** BLE, CAN, I2C, JTAG, MDIO, MQTT, RS-232, RS-485, SPI, SWD  
+**Design & Debug Tools:** Autodesk Fusion, Coverage, GDB, KiCAD, MISRA/Coverity Compliance, OpenOCD, Sigrok  
+**DevOps & CI/CD:** Automated Test Frameworks, Bazel, CMake, Docker, Git, Jenkins, Make  
+**Cloud, IIoT & Data Platforms:** AWS, InfluxDB, IoTStack, Prometheus, Relational & Time-series Databases, SQLite  
+**Networking & Security:** Firewalls, Intrusion Detection/Prevention, OpenWRT, SSL/TLS, TCP/IP, UDP, Wireshark, Wi-Fi  
+**Monitoring & Reporting:** Grafana, LaTeX, Markdown, Matplotlib, Node-RED, PlantUML, Technical Documentation
 
 ## Certifications
-
 
 {% include pdf_expand.html 
    summary="Atlassian Agile Project Management"
