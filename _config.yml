@@ -37,6 +37,8 @@ exclude:
   - jekyll-theme-slate.gemspec
   - "*.gem"
   - docker-compose.yml
+  - vendor
+  - .bundle
 
 defaults:
   - scope:
