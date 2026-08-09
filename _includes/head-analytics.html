@@ -60,19 +60,37 @@
   document.addEventListener("DOMContentLoaded", function () {
     const consentKey = "ga_consent";
     const banner = document.getElementById("cookie-consent");
-    const consent = localStorage.getItem(consentKey);
+    // localStorage can throw in sandboxed/private contexts; a failure here
+    // must not break the rest of the tracking logic.
+    const safeStorageGet = (key) => {
+      try { return window.localStorage.getItem(key); } catch (e) { return null; }
+    };
+    const safeStorageSet = (key, value) => {
+      try { window.localStorage.setItem(key, value); } catch (e) {}
+    };
+    const safeStorageRemove = (key) => {
+      try { window.localStorage.removeItem(key); } catch (e) {}
+    };
+    const consent = safeStorageGet(consentKey);
     const acceptBtn = document.getElementById("accept-cookies");
     const rejectBtn = document.getElementById("reject-cookies");
     const withdrawBtn = document.getElementById("withdraw-consent");
 
-    // Show banner only if no decision has been made yet
+    // Show banner only if no decision has been made yet. Returning visitors
+    // must have their previous decision re-applied on every page load: a
+    // "granted" visitor reloads GA, a "denied" one keeps GA disabled.
     if (!consent) {
       banner.style.display = "block";
+    } else if (consent === "granted") {
+      loadGA();
+    } else if (consent === "denied") {
+      disableGA();
     }
     debugLog("GA consent status:", consent);
 
     // Track link and summary clicks
     document.addEventListener('click', event => {
+      if (!(event.target instanceof Element)) return;
       const link = event.target.closest('a, summary');
       if (!link) return;
       const eventName = link.dataset.event || 'click';
@@ -119,51 +137,108 @@
     }, { passive: true });
     engagement.onScroll();
 
-    // Report 30s of engagement (single fire; not tied to consent decision)
-    setTimeout(() => send_nca_event('engaged.30s'), 30000);
-
     // Classify the visitor as a bot/crawler or a human, using the user-agent
     // string (already collected by NCA) plus the webdriver flag. Purely
-    // anonymous - no fingerprinting or personal data.
+    // anonymous - no fingerprinting or personal data. Runs before the
+    // engagement timers so bots can be excluded from "engaged"/"visit" events.
+    // Each known bot maps to [display name, category].
     const ua = (navigator.userAgent || '').toLowerCase();
     const knownBots = {
-      googlebot: 'Googlebot',
-      bingbot: 'Bingbot',
-      duckduckbot: 'DuckDuckBot',
-      baiduspider: 'Baiduspider',
-      yandex: 'YandexBot',
-      applebot: 'Applebot',
-      semrushbot: 'SemrushBot',
-      ahrefsbot: 'AhrefsBot',
-      dotbot: 'DotBot',
-      facebookexternalhit: 'Facebook',
-      twitterbot: 'Twitter',
-      linkedinbot: 'LinkedIn',
-      slackbot: 'Slack',
-      discordbot: 'Discord',
-      whatsapp: 'WhatsApp',
-      telegrambot: 'Telegram',
-      headlesschrome: 'HeadlessChrome',
-      phantomjs: 'PhantomJS',
-      puppeteer: 'Puppeteer',
-      playwright: 'Playwright',
-      'python-requests': 'Python-Requests',
-      curl: 'curl',
-      wget: 'Wget',
-      okhttp: 'OkHttp',
-      preflight: 'Preflight'
+      // Search engines & crawlers
+      googlebot: ['Googlebot', 'search'],
+      bingbot: ['Bingbot', 'search'],
+      duckduckbot: ['DuckDuckBot', 'search'],
+      baiduspider: ['Baiduspider', 'search'],
+      yandexbot: ['YandexBot', 'search'],
+      sogou: ['Sogou', 'search'],
+      seznambot: ['SeznamBot', 'search'],
+      yisou: ['YisouSpider', 'search'],
+      petalbot: ['PetalBot', 'search'],
+      exabot: ['Exabot', 'search'],
+      applebot: ['Applebot', 'search'],
+      ia_archiver: ['ArchiveBot', 'archive'],
+      // AI / ML crawlers
+      gptbot: ['GPTBot', 'ai'],
+      claude: ['ClaudeBot', 'ai'],
+      'anthropic-ai': ['Anthropic', 'ai'],
+      ccbot: ['CCBot', 'ai'],
+      perplexitybot: ['PerplexityBot', 'ai'],
+      bytespider: ['Bytespider', 'ai'],
+      amazonbot: ['Amazonbot', 'ai'],
+      cohere: ['Cohere', 'ai'],
+      omgili: ['OmgiliBot', 'ai'],
+      diffbot: ['Diffbot', 'ai'],
+      youbot: ['YouBot', 'ai'],
+      // SEO / audit / link checkers
+      semrushbot: ['SemrushBot', 'seo'],
+      ahrefsbot: ['AhrefsBot', 'seo'],
+      dotbot: ['DotBot', 'seo'],
+      screaming: ['ScreamingFrog', 'seo'],
+      xenu: ['Xenu', 'seo'],
+      // Uptime monitors
+      uptimerobot: ['UptimeRobot', 'uptime'],
+      'site24x7': ['Site24x7', 'uptime'],
+      pingdom: ['Pingdom', 'uptime'],
+      statuscake: ['StatusCake', 'uptime'],
+      monitis: ['Monitis', 'uptime'],
+      moneypenny: ['MoneyPenny', 'uptime'],
+      // Social / chat prefetchers
+      facebookexternalhit: ['Facebook', 'social'],
+      twitterbot: ['Twitter', 'social'],
+      linkedinbot: ['LinkedIn', 'social'],
+      slackbot: ['Slack', 'social'],
+      discordbot: ['Discord', 'social'],
+      telegrambot: ['Telegram', 'social'],
+      'line-pf': ['LINE', 'social'],
+      pinterestbot: ['PinterestBot', 'social'],
+      skypeuripreview: ['Skype', 'social'],
+      // Headless / browser automation
+      headlesschrome: ['HeadlessChrome', 'automation'],
+      phantomjs: ['PhantomJS', 'automation'],
+      puppeteer: ['Puppeteer', 'automation'],
+      playwright: ['Playwright', 'automation'],
+      selenium: ['Selenium', 'automation'],
+      // CLI / HTTP clients
+      'python-requests': ['Python-Requests', 'cli'],
+      curl: ['curl', 'cli'],
+      wget: ['Wget', 'cli'],
+      okhttp: ['OkHttp', 'cli'],
+      'java/': ['Java', 'cli'],
+      'go-http-client': ['Go-http-client', 'cli'],
+      preflight: ['Preflight', 'cli']
     };
-    let classified = false;
+    // Generic tokens for crawling behavior not covered by a specific entry
+    const genericBotTokens = ['bot', 'crawler', 'spider', 'scrape', 'headless', 'aiohttp', 'httpx', 'node-fetch', 'httpclient'];
+
+    let bot = null;
     for (const token in knownBots) {
       if (ua.includes(token)) {
-        send_nca_event('visitor.bot.' + knownBots[token]);
-        classified = true;
+        bot = knownBots[token];
         break;
       }
     }
-    if (!classified) {
-      send_nca_event(navigator.webdriver ? 'visitor.bot.Headless' : 'visitor.human');
+    if (!bot) {
+      const generic = genericBotTokens.find(t => ua.includes(t));
+      if (generic) bot = ['Unknown', 'other'];
     }
+
+    let isBot = false;
+    if (bot) {
+      isBot = true;
+      // Payload: category + raw user-agent (truncated) for richer segmentation
+      send_nca_event('visitor.bot.' + bot[0], bot[1] + '|' + ua.slice(0, 120));
+    } else if (navigator.webdriver) {
+      isBot = true;
+      send_nca_event('visitor.bot.Headless');
+    } else {
+      send_nca_event('visitor.human');
+    }
+
+    // Report 30s of engagement (single fire; not tied to consent decision).
+    // Bots/crawlers are excluded - they do not "engage".
+    setTimeout(() => {
+      if (!isBot) send_nca_event('engaged.30s');
+    }, 30000);
 
     // Interaction heuristic: after 6s, report whether any human-like
     // interaction (scroll, pointer, key, click) was observed. Separates
@@ -173,12 +248,14 @@
     ['scroll', 'pointerdown', 'mousemove', 'keydown', 'click'].forEach(evt =>
       window.addEventListener(evt, markInteracted, { passive: true, once: true })
     );
-    setTimeout(() => send_nca_event(interacted ? 'visit.active' : 'visit.passive'), 6000);
+    setTimeout(() => {
+      if (!isBot) send_nca_event(interacted ? 'visit.active' : 'visit.passive');
+    }, 6000);
 
     if (acceptBtn) {
       acceptBtn.addEventListener("click", event => {
         event.preventDefault();
-        localStorage.setItem(consentKey, "granted");
+        safeStorageSet(consentKey, "granted");
         banner.style.display = "none";
         send_nca_event("cookie-consent-accepted");
         loadGA();
@@ -188,7 +265,7 @@
     if (rejectBtn) {
       rejectBtn.addEventListener("click", event => {
         event.preventDefault();
-        localStorage.setItem(consentKey, "denied");
+        safeStorageSet(consentKey, "denied");
         banner.style.display = "none";
         send_nca_event("cookie-consent-rejected");
         disableGA();
@@ -199,7 +276,7 @@
       withdrawBtn.addEventListener("click", event => {
         event.preventDefault();
         disableGA();
-        localStorage.removeItem(consentKey);
+        safeStorageRemove(consentKey);
         banner.style.display = "block";
         send_nca_event("cookie-consent-withdrawn");
         debugLog("GA consent withdrawn by user.");

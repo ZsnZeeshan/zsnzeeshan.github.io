@@ -100,6 +100,13 @@ function hasEvent(captured, name) {
   return eventNames(captured).includes(name);
 }
 
+// Value payload captured for an event, if any (bot events carry
+// "category|user-agent" so the dashboard can segment crawlers).
+function eventValue(captured, name) {
+  const match = captured.find((args) => args[0] === name);
+  return match ? match[1] : undefined;
+}
+
 // --- Scenario 1: fresh visitor (no prior consent) ---
 console.log("Loading index.html with no prior consent...");
 const noConsent = loadPage(INDEX);
@@ -254,8 +261,81 @@ assert(
   "a Googlebot user-agent is classified as visitor.bot.Googlebot"
 );
 assert(
+  eventValue(bot.captured, "visitor.bot.Googlebot").startsWith("search|"),
+  "bot events carry a category payload (Googlebot => search|...)"
+);
+assert(
+  eventValue(bot.captured, "visitor.bot.Googlebot").includes("googlebot"),
+  "bot events carry the (truncated) user-agent in the payload"
+);
+assert(
   !hasEvent(bot.captured, "visitor.human"),
   "a Googlebot user-agent is not classified as a human"
+);
+// Bot visits must not pollute the human-engagement metrics: no 30s
+// heartbeat and no active/passive visit classification.
+assert(
+  !hasEvent(bot.captured, "engaged.30s"),
+  "bot visits do not report an engaged.30s heartbeat"
+);
+bot.dom.window.__sixSecTimers[0]();
+assert(
+  !hasEvent(bot.captured, "visit.active") && !hasEvent(bot.captured, "visit.passive"),
+  "bot visits do not report visit.active/visit.passive"
+);
+
+console.log("Loading index.html with an AI crawler user-agent...");
+const ai = loadPage(INDEX, {
+  ua: "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; GPTBot/1.2; +https://openai.com/gptbot",
+});
+await waitReady(ai.dom.window);
+assert(
+  hasEvent(ai.captured, "visitor.bot.GPTBot"),
+  "GPTBot user-agent is classified as visitor.bot.GPTBot"
+);
+assert(
+  eventValue(ai.captured, "visitor.bot.GPTBot").startsWith("ai|"),
+  "AI crawler events carry the ai category payload"
+);
+
+console.log("Loading index.html with an unknown generic spider...");
+const generic = loadPage(INDEX, { ua: "MysteryCrawler/1.0 (compatible; example spider)" });
+await waitReady(generic.dom.window);
+assert(
+  hasEvent(generic.captured, "visitor.bot.Unknown"),
+  "an unmatched crawler-like user-agent is classified as visitor.bot.Unknown"
+);
+assert(
+  eventValue(generic.captured, "visitor.bot.Unknown").startsWith("other|"),
+  "unknown bot events carry the other category payload"
+);
+
+// --- Scenario 7: returning visitor who previously accepted consent ---
+// A stored consent=granted must re-apply on every page load: GA loads
+// without the visitor having to click Accept again.
+console.log("Loading index.html with stored granted consent...");
+const returning = loadPage(INDEX, { consent: "granted" });
+await waitReady(returning.dom.window);
+assert(
+  returning.dom.window.gaLoaded === true,
+  "returning visitor with stored granted consent loads GA without clicking"
+);
+assert(
+  returning.dom.window.document.getElementById("cookie-consent").style.display === "none",
+  "banner stays hidden for a returning visitor who already accepted"
+);
+
+// --- Scenario 8: returning visitor who previously rejected consent ---
+console.log("Loading index.html with stored denied consent...");
+const returningDenied = loadPage(INDEX, { consent: "denied" });
+await waitReady(returningDenied.dom.window);
+assert(
+  returningDenied.dom.window.gaLoaded !== true,
+  "returning visitor with stored denied consent does not load GA"
+);
+assert(
+  returningDenied.dom.window["ga-disable-G-3T5JF88VB0"] === true,
+  "returning visitor with stored denied consent keeps the ga-disable flag set"
 );
 
 // --- Summary: fail the build if any assertion failed ---
