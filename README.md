@@ -1,9 +1,9 @@
-# Muhammad Zeeshan Arshad — Professional Portfolio
+# Muhammad Zeeshan Arshad
 
 Welcome to my professional portfolio. This website serves as a central hub for my work, research, and technical services.
 
 ## About Me
-I am a research-oriented **R&D Software Engineer** with over a decade of experience building complex systems, often deep inside closed-source ecosystems, and pushing ideas from concept to production. 
+I am a research-oriented **R&D Software Engineer** with over 8+ years of experience building complex systems, often deep inside closed-source ecosystems, and pushing ideas from concept to production. 
 
 I am now also interested to shift gears: sharing what I’ve learned, exploring new technologies, and creating content that helps others level up. I am especially excited about contributing to open-source projects in **AI**, **IoT**, and **R&D**, where collaboration and curiosity drive real innovation.
 

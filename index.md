@@ -2,7 +2,7 @@
 layout: home
 navTag: Home
 order: 0
-title: "Muhammad Zeeshan Arshad - R&D Hardware Software Engineer"
+title: "Muhammad Zeeshan Arshad - R&D Software Expert, Embedded & IoT"
 description: "R&D Engineer at Advantest | 8+ Yrs Experience | Embedded & IoT Specialist | Edge AI & Signal Processing | C/C++, Python | Industry 4.0, SDR & ATE | TUM Alumni"
 image:
   path: "/assets/images/icon2.webp"
@@ -12,13 +12,15 @@ last_modified_at: 2026-08-09
 
 ## About Me
 
-Hardware software engineer with 8+ years of experience taking complex embedded and IoT systems from prototype to production. I've worked across the full stack including custom SoCs, embedded firmware, IIoT gateways, and cloud analytics, with a focus on reliability, performance, and practical problem solving.
+R&D software engineer with 8+ years of experience spanning hardware and software, from custom SoCs, bare-metal firmware, and low-power embedded systems to IIoT gateways and cloud analytics. I can easily handle complex embedded and IoT systems from prototype to production with a focus on reliability, performance, and practical problem solving.
+
+[Explore my non-NDA projects]({{ '/projects.html' | relative_url }}) · [Get in touch]({{ '/contact.html' | relative_url }})
 
 
 ## Education
 ### [**Technical University of Munich (TUM)**](https://www.tum.de/en/)
 **M.Sc. Communications Engineering** (2016–2018)  
-- CGPA: **1.7 / 1.0**  
+- CGPA: **1.7 / 1.0** (German scale, 1.0 = best)
 - Thesis: *Design and Implementation of SmartRack Controller for Industrial IoT*
 
 ### [**NED University of Engineering & Technology**](https://www.neduet.edu.pk/)
