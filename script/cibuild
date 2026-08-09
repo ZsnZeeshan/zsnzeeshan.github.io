@@ -5,6 +5,10 @@ set -e
 # Build the Jekyll site
 bundle exec jekyll build
 
+# Run NCA analytics event tests (Node + jsdom)
+npm ci --silent
+node test/nca-events.test.mjs
+
 # Run HTML-Proofer
 # Ignore the NCA script for SRI check since it has no provided integrity hash
  bundle exec htmlproofer ./_site --check-html --check-sri --url-ignore 'https://nocookieanalytics.com/latest.js','/linkedin.com/'

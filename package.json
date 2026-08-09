@@ -1,0 +1,12 @@
+{
+  "name": "zsnzeeshan.github.io",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NCA analytics event tests for the personal portfolio site",
+  "scripts": {
+    "test:nca": "node test/nca-events.test.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^22.1.0"
+  }
+}

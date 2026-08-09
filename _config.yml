@@ -30,6 +30,13 @@ exclude:
   - Gemfile.lock
   - .github
   - .DS_Store
+  - node_modules
+  - package.json
+  - package-lock.json
+  - test
+  - jekyll-theme-slate.gemspec
+  - "*.gem"
+  - docker-compose.yml
 
 defaults:
   - scope:

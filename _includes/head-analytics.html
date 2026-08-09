@@ -1,48 +1,49 @@
-<!-- Disable Google Analytics w/o consent -->
 <!-- NoCookieAnalytics (always loads, cookieless, GDPR-safe) -->
 <script async defer src="https://nocookieanalytics.com/latest.js"></script>
 
-{% if site.debug %}
+<!-- Set GA4 consent default to denied before any GA script can load -->
 <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('consent', 'default', { 'analytics_storage': 'denied' });
+</script>
+
+<script>
+  {% if site.debug %}
   function debugLog(...args) {
-    // Log debug messages in debug mode
     console.log("DEBUG:", ...args);
   }
-  function send_nca_event(...args) {
-    debugLog("Sending NCA event:", ...args);
-    nca_event(...args);
-  }
-  function send_gtag(...args) {
-    debugLog("Sending gtag:", ...args);
-    gtag(...args);
-  }
-</script>
-{% else %}
-<script>
+  {% else %}
   function debugLog() {
     // No-op in production
   }
-  function send_nca_event(...args) {
-    // No-op in production
-    nca_event(...args);
-  }
-  function send_gtag(...args) {
-    // No-op in production
-    gtag(...args);
-  }
-</script>
-{% endif %}
+  {% endif %}
 
-<script>
-  // Function to load Google Analytics script
+  function send_nca_event(...args) {
+    debugLog("Sending NCA event:", ...args);
+    if (typeof nca_event === 'function') {
+      nca_event(...args);
+    }
+  }
+
+  function send_gtag(...args) {
+    debugLog("Sending gtag:", ...args);
+    if (typeof gtag === 'function') {
+      gtag(...args);
+    }
+  }
+
+  function disableGA() {
+    // Stop any further Google Analytics requests
+    window['ga-disable-G-3T5JF88VB0'] = true;
+    send_gtag('consent', 'update', { 'analytics_storage': 'denied' });
+  }
+
+  // Load Google Analytics only after explicit consent
   function loadGA() {
     debugLog("Loading Google Analytics...");
     if (window.gaLoaded) return;
     window.gaLoaded = true;
-
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { dataLayer.push(arguments); }
-    send_gtag('consent', 'default', { 'analytics_storage': 'denied' });
 
     const s = document.createElement("script");
     s.src = "https://www.googletagmanager.com/gtag/js?id=G-3T5JF88VB0";
@@ -50,8 +51,8 @@
     document.head.appendChild(s);
 
     send_gtag('js', new Date());
-    send_gtag('config', 'G-3T5JF88VB0', { anonymize_ip: true });
-    send_gtag('consent', 'update', { analytics_storage: 'granted' });
+    send_gtag('config', 'G-3T5JF88VB0');
+    send_gtag('consent', 'update', { 'analytics_storage': 'granted' });
   }
 </script>
 
@@ -61,53 +62,53 @@
     const banner = document.getElementById("cookie-consent");
     const consent = localStorage.getItem(consentKey);
     const acceptBtn = document.getElementById("accept-cookies");
+    const rejectBtn = document.getElementById("reject-cookies");
     const withdrawBtn = document.getElementById("withdraw-consent");
-    // Helper function for custom NoCookieAnalytics events
-    function trackNCAEvent(name, value = 1) {
-      debugLog("Tracking NCA event:", name, value);
-      if (typeof nca_event === 'function') {
-        send_nca_event(name, value);
-      }
-    }
 
-    // Track link clicks
-    document.addEventListener('click', event => {
-      //debugLog("Click event:", event);
-      const link = event.target.closest('a, summary');
-      if (!link) return; // Not a link or summary
-      const eventName = link.dataset.event || 'click';
-      const text = eventName + '.' + link.textContent.trim().replace(/\s+/g, '-');
-      send_nca_event(text);
-    });
-
-    //track on click buttons
-    // Show banner if no consent given yet
+    // Show banner only if no decision has been made yet
     if (!consent) {
       banner.style.display = "block";
     }
     debugLog("GA consent status:", consent);
 
+    // Track link and summary clicks
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a, summary');
+      if (!link) return;
+      const eventName = link.dataset.event || 'click';
+      const text = eventName + '.' + link.textContent.trim().replace(/\s+/g, '-');
+      send_nca_event(text);
+    });
+
     if (acceptBtn) {
       acceptBtn.addEventListener("click", event => {
         event.preventDefault();
+        localStorage.setItem(consentKey, "granted");
         banner.style.display = "none";
         send_nca_event("cookie-consent-accepted");
-        localStorage.setItem(consentKey, "granted");
         loadGA();
+      });
+    }
+
+    if (rejectBtn) {
+      rejectBtn.addEventListener("click", event => {
+        event.preventDefault();
+        localStorage.setItem(consentKey, "denied");
+        banner.style.display = "none";
+        send_nca_event("cookie-consent-rejected");
+        disableGA();
       });
     }
 
     if (withdrawBtn) {
       withdrawBtn.addEventListener("click", event => {
         event.preventDefault();
+        disableGA();
         localStorage.removeItem(consentKey);
         banner.style.display = "block";
         send_nca_event("cookie-consent-withdrawn");
         debugLog("GA consent withdrawn by user.");
       });
     }
-
   });
-
 </script>
-<!-- End Google Analytics with explicit consent + NoCookieAnalytics -->
