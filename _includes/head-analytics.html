@@ -80,6 +80,101 @@
       send_nca_event(text);
     });
 
+    // Anonymous engagement events (no personal data; consistent with the
+    // privacy policy):
+    //  - scroll depth: report the deepest milestone reached (25/50/75/100%)
+    //  - time on page: one "engaged.30s" heartbeat after 30 seconds
+    const engagement = {
+      maxDepth: 0,
+      reported: {},
+      onScroll() {
+        const doc = document.documentElement;
+        const maxScroll = doc.scrollHeight - doc.clientHeight;
+        if (maxScroll <= 0) return;
+        this.maxDepth = Math.max(this.maxDepth, Math.round((doc.scrollTop / maxScroll) * 100));
+        [25, 50, 75, 100].forEach(t => {
+          if (this.maxDepth >= t && !this.reported[t]) {
+            this.reported[t] = true;
+            send_nca_event('scroll-depth.' + t);
+          }
+        });
+      }
+    };
+
+    // Throttle scroll handling to at most once per 300ms
+    let lastScroll = 0;
+    let scrollTimer = null;
+    window.addEventListener('scroll', () => {
+      const now = Date.now();
+      if (now - lastScroll >= 300) {
+        lastScroll = now;
+        engagement.onScroll();
+      } else if (!scrollTimer) {
+        scrollTimer = setTimeout(() => {
+          lastScroll = Date.now();
+          scrollTimer = null;
+          engagement.onScroll();
+        }, 300);
+      }
+    }, { passive: true });
+    engagement.onScroll();
+
+    // Report 30s of engagement (single fire; not tied to consent decision)
+    setTimeout(() => send_nca_event('engaged.30s'), 30000);
+
+    // Classify the visitor as a bot/crawler or a human, using the user-agent
+    // string (already collected by NCA) plus the webdriver flag. Purely
+    // anonymous - no fingerprinting or personal data.
+    const ua = (navigator.userAgent || '').toLowerCase();
+    const knownBots = {
+      googlebot: 'Googlebot',
+      bingbot: 'Bingbot',
+      duckduckbot: 'DuckDuckBot',
+      baiduspider: 'Baiduspider',
+      yandex: 'YandexBot',
+      applebot: 'Applebot',
+      semrushbot: 'SemrushBot',
+      ahrefsbot: 'AhrefsBot',
+      dotbot: 'DotBot',
+      facebookexternalhit: 'Facebook',
+      twitterbot: 'Twitter',
+      linkedinbot: 'LinkedIn',
+      slackbot: 'Slack',
+      discordbot: 'Discord',
+      whatsapp: 'WhatsApp',
+      telegrambot: 'Telegram',
+      headlesschrome: 'HeadlessChrome',
+      phantomjs: 'PhantomJS',
+      puppeteer: 'Puppeteer',
+      playwright: 'Playwright',
+      'python-requests': 'Python-Requests',
+      curl: 'curl',
+      wget: 'Wget',
+      okhttp: 'OkHttp',
+      preflight: 'Preflight'
+    };
+    let classified = false;
+    for (const token in knownBots) {
+      if (ua.includes(token)) {
+        send_nca_event('visitor.bot.' + knownBots[token]);
+        classified = true;
+        break;
+      }
+    }
+    if (!classified) {
+      send_nca_event(navigator.webdriver ? 'visitor.bot.Headless' : 'visitor.human');
+    }
+
+    // Interaction heuristic: after 6s, report whether any human-like
+    // interaction (scroll, pointer, key, click) was observed. Separates
+    // passive loads (fast bots, bounces) from engaged visits.
+    let interacted = false;
+    const markInteracted = () => { interacted = true; };
+    ['scroll', 'pointerdown', 'mousemove', 'keydown', 'click'].forEach(evt =>
+      window.addEventListener(evt, markInteracted, { passive: true, once: true })
+    );
+    setTimeout(() => send_nca_event(interacted ? 'visit.active' : 'visit.passive'), 6000);
+
     if (acceptBtn) {
       acceptBtn.addEventListener("click", event => {
         event.preventDefault();

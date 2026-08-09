@@ -47,7 +47,7 @@ function assert(condition, message) {
 //  - captured: array of (name, value) tuples pushed by the nca_event stub
 //  - consent: optional pre-seeded value for the ga_consent localStorage key,
 //    simulating a returning visitor who already made a decision
-function loadPage(html, { consent, url = "https://zsnzeeshan.github.io/" } = {}) {
+function loadPage(html, { consent, url = "https://zsnzeeshan.github.io/", ua } = {}) {
   const captured = [];
   const dom = new JSDOM(html, {
     runScripts: "dangerously", // execute inline <script>s from the page
@@ -58,6 +58,22 @@ function loadPage(html, { consent, url = "https://zsnzeeshan.github.io/" } = {})
       // we can observe every event the site tries to send to NCA.
       if (consent) window.localStorage.setItem("ga_consent", consent);
       window.nca_event = (...args) => captured.push(args);
+      // Optionally simulate a crawler by overriding the user agent.
+      if (ua) {
+        Object.defineProperty(window.navigator, "userAgent", {
+          value: ua,
+          configurable: true,
+        });
+      }
+      // Fast-forward the 30s engagement heartbeat, and capture the 6s
+      // interaction timer so the test can fire it manually.
+      window.__sixSecTimers = [];
+      const origSetTimeout = window.setTimeout.bind(window);
+      window.setTimeout = (fn, ms, ...args) => {
+        if (ms === 30000) fn();
+        else if (ms === 6000) window.__sixSecTimers.push(fn);
+        else return origSetTimeout(fn, ms, ...args);
+      };
     },
   });
   return { dom, captured };
@@ -100,6 +116,33 @@ assert(
   !noConsentWin["ga-disable-G-3T5JF88VB0"],
   "GA is not disabled before consent"
 );
+assert(
+  hasEvent(noConsent.captured, "engaged.30s"),
+  "30s time-on-page heartbeat fires an engaged.30s event"
+);
+assert(
+  hasEvent(noConsent.captured, "visitor.human"),
+  "a normal browser is classified as visitor.human"
+);
+
+// Scroll depth: jsdom has no real layout, so stub the geometry to simulate
+// a scrollable page, then dispatch a scroll event to ~83% of the page.
+// Expect the 25/50/75 milestones (not 100) to be reported once.
+const docEl = noConsentWin.document.documentElement;
+Object.defineProperty(docEl, "scrollHeight", { value: 2000, configurable: true });
+Object.defineProperty(docEl, "clientHeight", { value: 500, configurable: true });
+Object.defineProperty(docEl, "scrollTop", { value: 1250, configurable: true });
+noConsentWin.dispatchEvent(new noConsentWin.Event("scroll"));
+assert(
+  hasEvent(noConsent.captured, "scroll-depth.25") &&
+    hasEvent(noConsent.captured, "scroll-depth.50") &&
+    hasEvent(noConsent.captured, "scroll-depth.75"),
+  "scrolling to 83% reports the 25/50/75 scroll-depth milestones"
+);
+assert(
+  !hasEvent(noConsent.captured, "scroll-depth.100"),
+  "the 100% milestone is not reported before reaching the bottom"
+);
 
 // --- Scenario 2: link click tracking ---
 console.log("Simulating a link click...");
@@ -134,6 +177,14 @@ assert(
   "banner hides after Accept"
 );
 
+// Fire the captured 6s interaction timer now that scrolls/clicks happened;
+// the visit should be classified as active (human interaction observed).
+noConsentWin.__sixSecTimers[0]();
+assert(
+  hasEvent(noConsent.captured, "visit.active"),
+  "interacting within 6s classifies the visit as visit.active"
+);
+
 console.log("Logged NCA events (index):");
 console.log(`  ${eventNames(noConsent.captured).join(", ")}`);
 
@@ -142,6 +193,15 @@ console.log("Loading index.html fresh and simulating Reject...");
 const reject = loadPage(INDEX);
 await waitReady(reject.dom.window);
 const rejectWin = reject.dom.window;
+
+// No interaction happened on this fresh load yet; firing the captured 6s
+// timer should classify the visit as passive (no human engagement).
+rejectWin.__sixSecTimers[0]();
+assert(
+  hasEvent(reject.captured, "visit.passive"),
+  "no interaction within 6s classifies the visit as visit.passive"
+);
+
 rejectWin.document
   .getElementById("reject-cookies")
   .dispatchEvent(new rejectWin.MouseEvent("click", { bubbles: true }));
@@ -182,6 +242,21 @@ assert(
 
 console.log("Logged NCA events (privacy):");
 console.log(`  ${eventNames(withdraw.captured).join(", ")}`);
+
+// --- Scenario 6: bot/crawler classification via user-agent ---
+console.log("Loading index.html with a Googlebot user-agent...");
+const bot = loadPage(INDEX, {
+  ua: "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+});
+await waitReady(bot.dom.window);
+assert(
+  hasEvent(bot.captured, "visitor.bot.Googlebot"),
+  "a Googlebot user-agent is classified as visitor.bot.Googlebot"
+);
+assert(
+  !hasEvent(bot.captured, "visitor.human"),
+  "a Googlebot user-agent is not classified as a human"
+);
 
 // --- Summary: fail the build if any assertion failed ---
 console.log("");
