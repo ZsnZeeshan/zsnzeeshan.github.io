@@ -7,8 +7,8 @@ description: This page specifies the privacy policy of this website regarding mo
 image:
   path: "/assets/images/icon2.webp"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
-sitemap: false
-last_modified_at: 2026-02-13
+sitemap: true
+last_modified_at: 2026-08-09
 ---
 
 ## Data Analytics

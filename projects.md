@@ -7,7 +7,7 @@ description: From low-level hardware to cloud — bare-metal embedded, IIoT gate
 image:
   path: "/assets/images/icon2.webp"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
-last_modified_at: 2026-07-04
+last_modified_at: 2026-08-09
 #permalink: /projects/
 ---
 ## Projects

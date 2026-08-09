@@ -20,6 +20,23 @@ social:
     - https://www.linkedin.com/in/muhammad-zeeshan-arshad/
     - https://orcid.org/0009-0000-6227-8153
 
+exclude:
+  - archive
+  - docs
+  - script
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - .github
+  - .DS_Store
+
+defaults:
+  - scope:
+      path: "assets"
+    values:
+      sitemap: false
+
 # plugins settings
 plugins:
  - jekyll-sitemap
