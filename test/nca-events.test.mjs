@@ -313,6 +313,21 @@ assert(
 // --- Scenario 7: returning visitor who previously accepted consent ---
 // A stored consent=granted must re-apply on every page load: GA loads
 // without the visitor having to click Accept again.
+console.log("Loading index.html with a Lighthouse renderer user-agent...");
+const lighthouse = loadPage(INDEX, {
+  ua: "Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Chrome-Lighthouse",
+});
+await waitReady(lighthouse.dom.window);
+assert(
+  hasEvent(lighthouse.captured, "visitor.bot.Lighthouse"),
+  "a Lighthouse renderer (clean Chrome UA) is classified as visitor.bot.Lighthouse"
+);
+lighthouse.dom.window.__sixSecTimers[0]();
+assert(
+  !hasEvent(lighthouse.captured, "visit.active") && !hasEvent(lighthouse.captured, "visit.passive"),
+  "renderer crawlers that scroll do not report visit.active/visit.passive"
+);
+
 console.log("Loading index.html with stored granted consent...");
 const returning = loadPage(INDEX, { consent: "granted" });
 await waitReady(returning.dom.window);

@@ -156,6 +156,20 @@
       petalbot: ['PetalBot', 'search'],
       exabot: ['Exabot', 'search'],
       applebot: ['Applebot', 'search'],
+      bingpreview: ['BingPreview', 'search'],
+      slurp: ['YahooSlurp', 'search'],
+      yeti: ['Yeti', 'search'],
+      voilabot: ['VoilaBot', 'search'],
+      nutch: ['Nutch', 'search'],
+      qwantify: ['Qwantify', 'search'],
+      robozilla: ['Robozilla', 'search'],
+      'mail.ru': ['MailRuBot', 'search'],
+      'feedfetcher-google': ['GoogleFeedFetcher', 'search'],
+      'duckduckgo-favicons': ['DuckDuckGo', 'search'],
+      'mediapartners-google': ['GoogleAdSense', 'search'],
+      'adsbot-google': ['GoogleAdsBot', 'search'],
+      'storebot-google': ['GoogleStoreBot', 'search'],
+      'apis-google': ['GoogleAPIs', 'search'],
       ia_archiver: ['ArchiveBot', 'archive'],
       // AI / ML crawlers
       gptbot: ['GPTBot', 'ai'],
@@ -169,12 +183,26 @@
       omgili: ['OmgiliBot', 'ai'],
       diffbot: ['Diffbot', 'ai'],
       youbot: ['YouBot', 'ai'],
-      // SEO / audit / link checkers
+      andisearch: ['AndiSearch', 'ai'],
+      // SEO / audit / link checkers. Real-engine renderers (Lighthouse,
+      // PageSpeed Insights, Search Console's inspection tool, ...) ship a
+      // clean browser UA but run automated pages - they scroll programmatically
+      // and would otherwise pollute visit.active.
       semrushbot: ['SemrushBot', 'seo'],
       ahrefsbot: ['AhrefsBot', 'seo'],
       dotbot: ['DotBot', 'seo'],
       screaming: ['ScreamingFrog', 'seo'],
       xenu: ['Xenu', 'seo'],
+      'chrome-lighthouse': ['Lighthouse', 'seo'],
+      'google-inspectiontool': ['GoogleInspectionTool', 'seo'],
+      'googlepagespeedinsights': ['PageSpeedInsights', 'seo'],
+      mj12bot: ['MJ12bot', 'seo'],
+      blexbot: ['BLEXBot', 'seo'],
+      seokicks: ['SeoKicks', 'seo'],
+      admantx: ['Admantx', 'seo'],
+      'w3c_validator': ['W3CValidator', 'seo'],
+      'validator.nu': ['ValidatorNu', 'seo'],
+      gtmetrix: ['GTmetrix', 'seo'],
       // Uptime monitors
       uptimerobot: ['UptimeRobot', 'uptime'],
       'site24x7': ['Site24x7', 'uptime'],
@@ -182,8 +210,10 @@
       statuscake: ['StatusCake', 'uptime'],
       monitis: ['Monitis', 'uptime'],
       moneypenny: ['MoneyPenny', 'uptime'],
+      newrelic: ['NewRelicPinger', 'uptime'],
       // Social / chat prefetchers
       facebookexternalhit: ['Facebook', 'social'],
+      facebot: ['Facebook', 'social'],
       twitterbot: ['Twitter', 'social'],
       linkedinbot: ['LinkedIn', 'social'],
       slackbot: ['Slack', 'social'],
@@ -192,9 +222,16 @@
       'line-pf': ['LINE', 'social'],
       pinterestbot: ['PinterestBot', 'social'],
       skypeuripreview: ['Skype', 'social'],
+      snapchat: ['Snapchat', 'social'],
+      viber: ['Viber', 'social'],
+      outbrain: ['Outbrain', 'social'],
+      taboola: ['Taboola', 'social'],
+      flipboardproxy: ['Flipboard', 'social'],
+      tumblr: ['Tumblr', 'social'],
       // Headless / browser automation
       headlesschrome: ['HeadlessChrome', 'automation'],
       phantomjs: ['PhantomJS', 'automation'],
+      slimerjs: ['SlimerJS', 'automation'],
       puppeteer: ['Puppeteer', 'automation'],
       playwright: ['Playwright', 'automation'],
       selenium: ['Selenium', 'automation'],
@@ -205,10 +242,12 @@
       okhttp: ['OkHttp', 'cli'],
       'java/': ['Java', 'cli'],
       'go-http-client': ['Go-http-client', 'cli'],
+      postmanruntime: ['Postman', 'cli'],
+      insomnia: ['Insomnia', 'cli'],
       preflight: ['Preflight', 'cli']
     };
     // Generic tokens for crawling behavior not covered by a specific entry
-    const genericBotTokens = ['bot', 'crawler', 'spider', 'scrape', 'headless', 'aiohttp', 'httpx', 'node-fetch', 'httpclient'];
+    const genericBotTokens = ['bot', 'crawler', 'spider', 'scrape', 'headless', 'renderer', 'aiohttp', 'httpx', 'node-fetch', 'httpclient'];
 
     let bot = null;
     for (const token in knownBots) {
