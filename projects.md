@@ -40,7 +40,7 @@ last_modified_at: 2026-07-04
 - Mentored a team of junior engineers in software engineering best practices, guiding them from initial research to the development of practical machine learning applications.
 - Developed custom CAD and simulation automation scripts, utilizing reinforcement learning techniques to optimize design parameters and cut down simulation times.
 - Supervised internal IT and data systems, ensuring the underlying infrastructure could effectively support data-intensive machine learning training workflows.
-- This work led to a publication: *A novel heuristic approach to detect induced forming defects using point cloud scans* ([DOI: 10.1017/pds.2024.75](https://doi.org/10.1017/pds.2024.75)).
+- Co-authored with an academic team: *A novel heuristic approach to detect induced forming defects using point cloud scans* ([DOI: 10.1017/pds.2024.75](https://doi.org/10.1017/pds.2024.75)).
 
 ### **Intelligent IoT Audio Infrastructure (2017 – 2019)**  
 - Built a scalable IoT audio system for smart classrooms, managing real-time data streaming across multiple hardware slave nodes.

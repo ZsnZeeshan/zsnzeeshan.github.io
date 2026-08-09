@@ -93,7 +93,7 @@ Hardware software engineer with 8+ years of experience taking complex embedded a
 
 ## Publications
 
-1. **M. Z. Arshad**, A. Müller, B. Schmidt, et al.  
+1. M. S. Saeed, S. Faisal, B. Eisenbart, M. Kreimeyer, E. Nadeem, M. H. Khan, **M. Z. Arshad**, R. Radjef, M. Wagner.  
    *A novel heuristic approach to detect induced forming defects using point cloud scans.*  
    **Design Society Proceedings**, 2024.  
    **DOI**: [10.1017/pds.2024.75](http://dx.doi.org/10.1017/pds.2024.75)
