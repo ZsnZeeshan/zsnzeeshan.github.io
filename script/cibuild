@@ -5,9 +5,12 @@ set -e
 # Build the Jekyll site
 bundle exec jekyll build
 
-# Run NCA analytics event tests (Node + jsdom)
+# Run NCA analytics event tests (Node + jsdom), the crawler/browser corpus
+# coverage tests, and the end-to-end headless-browser test.
 npm ci --silent
 node test/nca-events.test.mjs
+node test/bot-coverage.test.mjs
+node test/bot-e2e.test.mjs
 
 # Run HTML-Proofer
 # Ignore the NCA script for SRI check since it has no provided integrity hash

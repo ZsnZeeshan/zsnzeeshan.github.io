@@ -65,12 +65,14 @@ function loadPage(html, { consent, url = "https://zsnzeeshan.github.io/", ua } =
           configurable: true,
         });
       }
-      // Fast-forward the 30s engagement heartbeat, and capture the 6s
-      // interaction timer so the test can fire it manually.
+      // Capture the 6s interaction timer and the 30s engagement heartbeat so
+      // the test can fire them manually (the 30s heartbeat is now gated on
+      // engagement, so it must run after any simulated interactions).
       window.__sixSecTimers = [];
+      window.__thirtySecTimers = [];
       const origSetTimeout = window.setTimeout.bind(window);
       window.setTimeout = (fn, ms, ...args) => {
-        if (ms === 30000) fn();
+        if (ms === 30000) window.__thirtySecTimers.push(fn);
         else if (ms === 6000) window.__sixSecTimers.push(fn);
         else return origSetTimeout(fn, ms, ...args);
       };
@@ -122,10 +124,6 @@ assert(!noConsentWin.gaLoaded, "GA is not loaded before consent");
 assert(
   !noConsentWin["ga-disable-G-3T5JF88VB0"],
   "GA is not disabled before consent"
-);
-assert(
-  hasEvent(noConsent.captured, "engaged.30s"),
-  "30s time-on-page heartbeat fires an engaged.30s event"
 );
 assert(
   hasEvent(noConsent.captured, "visitor.human"),
@@ -185,11 +183,19 @@ assert(
 );
 
 // Fire the captured 6s interaction timer now that scrolls/clicks happened;
-// the visit should be classified as active (human interaction observed).
+// the visit should be classified as active (strong engagement observed).
 noConsentWin.__sixSecTimers[0]();
 assert(
   hasEvent(noConsent.captured, "visit.active"),
   "interacting within 6s classifies the visit as visit.active"
+);
+
+// The 30s heartbeat is gated on the same engagement: an engaged visitor
+// (scrolled past 25% and clicked) gets the heartbeat.
+noConsentWin.__thirtySecTimers[0]();
+assert(
+  hasEvent(noConsent.captured, "engaged.30s"),
+  "an engaged visitor gets the engaged.30s heartbeat"
 );
 
 console.log("Logged NCA events (index):");
@@ -207,6 +213,13 @@ rejectWin.__sixSecTimers[0]();
 assert(
   hasEvent(reject.captured, "visit.passive"),
   "no interaction within 6s classifies the visit as visit.passive"
+);
+
+// A passive load must not receive the 30s engagement heartbeat either.
+rejectWin.__thirtySecTimers[0]();
+assert(
+  !hasEvent(reject.captured, "engaged.30s"),
+  "a passive visit does not get the engaged.30s heartbeat"
 );
 
 rejectWin.document
@@ -274,14 +287,15 @@ assert(
 );
 // Bot visits must not pollute the human-engagement metrics: no 30s
 // heartbeat and no active/passive visit classification.
-assert(
-  !hasEvent(bot.captured, "engaged.30s"),
-  "bot visits do not report an engaged.30s heartbeat"
-);
 bot.dom.window.__sixSecTimers[0]();
 assert(
   !hasEvent(bot.captured, "visit.active") && !hasEvent(bot.captured, "visit.passive"),
   "bot visits do not report visit.active/visit.passive"
+);
+bot.dom.window.__thirtySecTimers[0]();
+assert(
+  !hasEvent(bot.captured, "engaged.30s"),
+  "bot visits do not report an engaged.30s heartbeat"
 );
 
 console.log("Loading index.html with an AI crawler user-agent...");
@@ -326,6 +340,49 @@ lighthouse.dom.window.__sixSecTimers[0]();
 assert(
   !hasEvent(lighthouse.captured, "visit.active") && !hasEvent(lighthouse.captured, "visit.passive"),
   "renderer crawlers that scroll do not report visit.active/visit.passive"
+);
+lighthouse.dom.window.__thirtySecTimers[0]();
+assert(
+  !hasEvent(lighthouse.captured, "engaged.30s"),
+  "renderer crawlers do not report an engaged.30s heartbeat"
+);
+
+console.log("Loading index.html with a crawler-like sub-25% scroll...");
+const partial = loadPage(INDEX);
+await waitReady(partial.dom.window);
+const partialWin = partial.dom.window;
+Object.defineProperty(partialWin.document.documentElement, "scrollHeight", { value: 2000, configurable: true });
+Object.defineProperty(partialWin.document.documentElement, "clientHeight", { value: 500, configurable: true });
+Object.defineProperty(partialWin.document.documentElement, "scrollTop", { value: 150, configurable: true });
+partialWin.dispatchEvent(new partialWin.Event("scroll"));
+assert(
+  !hasEvent(partial.captured, "scroll-depth.25"),
+  "scrolling below 25% does not report any scroll-depth milestone"
+);
+partialWin.__sixSecTimers[0]();
+assert(
+  hasEvent(partial.captured, "visit.passive"),
+  "scrolling below 25% classifies the visit as visit.passive, not active"
+);
+partialWin.__thirtySecTimers[0]();
+assert(
+  !hasEvent(partial.captured, "engaged.30s"),
+  "a sub-25% scroll alone does not trigger the engaged.30s heartbeat"
+);
+
+console.log("Loading index.html and simulating a mouse move only...");
+const mouseOnly = loadPage(INDEX);
+await waitReady(mouseOnly.dom.window);
+mouseOnly.dom.window.dispatchEvent(new mouseOnly.dom.window.Event("mousemove"));
+mouseOnly.dom.window.__sixSecTimers[0]();
+assert(
+  hasEvent(mouseOnly.captured, "visit.active"),
+  "a real mouse move classifies the visit as visit.active, not passive"
+);
+mouseOnly.dom.window.__thirtySecTimers[0]();
+assert(
+  hasEvent(mouseOnly.captured, "engaged.30s"),
+  "a real mouse move also triggers the engaged.30s heartbeat"
 );
 
 console.log("Loading index.html with stored granted consent...");

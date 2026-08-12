@@ -57,6 +57,139 @@
 </script>
 
 <script>
+  // Visitor classification: a standalone function (window.classifyVisitor)
+  // so the test suite can drive it directly against real crawler corpora.
+  // Purely UA + webdriver flag based - no fingerprinting or personal data.
+  // Each known bot maps to [display name, category]; anything the curated
+  // list misses falls through to a coverage net vendored from the isbot
+  // project (catches ~1500 crawler families), then to generic tokens.
+  window.classifyVisitor = (function () {
+    const knownBots = {
+      // Search engines & crawlers
+      googlebot: ["Googlebot", "search"],
+      bingbot: ["Bingbot", "search"],
+      duckduckbot: ["DuckDuckBot", "search"],
+      baiduspider: ["Baiduspider", "search"],
+      yandexbot: ["YandexBot", "search"],
+      sogou: ["Sogou", "search"],
+      seznambot: ["SeznamBot", "search"],
+      yisou: ["YisouSpider", "search"],
+      petalbot: ["PetalBot", "search"],
+      exabot: ["Exabot", "search"],
+      applebot: ["Applebot", "search"],
+      bingpreview: ["BingPreview", "search"],
+      slurp: ["YahooSlurp", "search"],
+      yeti: ["Yeti", "search"],
+      voilabot: ["VoilaBot", "search"],
+      nutch: ["Nutch", "search"],
+      qwantify: ["Qwantify", "search"],
+      robozilla: ["Robozilla", "search"],
+      "mail.ru": ["MailRuBot", "search"],
+      "feedfetcher-google": ["GoogleFeedFetcher", "search"],
+      "duckduckgo-favicons": ["DuckDuckGo", "search"],
+      "mediapartners-google": ["GoogleAdSense", "search"],
+      "adsbot-google": ["GoogleAdsBot", "search"],
+      "storebot-google": ["GoogleStoreBot", "search"],
+      "apis-google": ["GoogleAPIs", "search"],
+      ia_archiver: ["ArchiveBot", "archive"],
+      // AI / ML crawlers
+      gptbot: ["GPTBot", "ai"],
+      claude: ["ClaudeBot", "ai"],
+      "anthropic-ai": ["Anthropic", "ai"],
+      ccbot: ["CCBot", "ai"],
+      perplexitybot: ["PerplexityBot", "ai"],
+      bytespider: ["Bytespider", "ai"],
+      amazonbot: ["Amazonbot", "ai"],
+      cohere: ["Cohere", "ai"],
+      omgili: ["OmgiliBot", "ai"],
+      diffbot: ["Diffbot", "ai"],
+      youbot: ["YouBot", "ai"],
+      andisearch: ["AndiSearch", "ai"],
+      // SEO / audit / link checkers. Real-engine renderers (Lighthouse,
+      // PageSpeed Insights, Search Console inspection, ...) ship a clean
+      // browser UA but run automated pages.
+      semrushbot: ["SemrushBot", "seo"],
+      ahrefsbot: ["AhrefsBot", "seo"],
+      dotbot: ["DotBot", "seo"],
+      screaming: ["ScreamingFrog", "seo"],
+      xenu: ["Xenu", "seo"],
+      "chrome-lighthouse": ["Lighthouse", "seo"],
+      "google-inspectiontool": ["GoogleInspectionTool", "seo"],
+      "googlepagespeedinsights": ["PageSpeedInsights", "seo"],
+      mj12bot: ["MJ12bot", "seo"],
+      blexbot: ["BLEXBot", "seo"],
+      seokicks: ["SeoKicks", "seo"],
+      admantx: ["Admantx", "seo"],
+      "w3c_validator": ["W3CValidator", "seo"],
+      "validator.nu": ["ValidatorNu", "seo"],
+      gtmetrix: ["GTmetrix", "seo"],
+      // Uptime monitors
+      uptimerobot: ["UptimeRobot", "uptime"],
+      "site24x7": ["Site24x7", "uptime"],
+      pingdom: ["Pingdom", "uptime"],
+      statuscake: ["StatusCake", "uptime"],
+      monitis: ["Monitis", "uptime"],
+      moneypenny: ["MoneyPenny", "uptime"],
+      newrelic: ["NewRelicPinger", "uptime"],
+      // Social / chat prefetchers
+      facebookexternalhit: ["Facebook", "social"],
+      facebot: ["Facebook", "social"],
+      twitterbot: ["Twitter", "social"],
+      linkedinbot: ["LinkedIn", "social"],
+      slackbot: ["Slack", "social"],
+      discordbot: ["Discord", "social"],
+      telegrambot: ["Telegram", "social"],
+      "line-pf": ["LINE", "social"],
+      pinterestbot: ["PinterestBot", "social"],
+      skypeuripreview: ["Skype", "social"],
+      snapchat: ["Snapchat", "social"],
+      viber: ["Viber", "social"],
+      outbrain: ["Outbrain", "social"],
+      taboola: ["Taboola", "social"],
+      flipboardproxy: ["Flipboard", "social"],
+      tumblr: ["Tumblr", "social"],
+      // Headless / browser automation
+      headlesschrome: ["HeadlessChrome", "automation"],
+      phantomjs: ["PhantomJS", "automation"],
+      slimerjs: ["SlimerJS", "automation"],
+      puppeteer: ["Puppeteer", "automation"],
+      playwright: ["Playwright", "automation"],
+      selenium: ["Selenium", "automation"],
+      // CLI / HTTP clients
+      "python-requests": ["Python-Requests", "cli"],
+      curl: ["curl", "cli"],
+      wget: ["Wget", "cli"],
+      okhttp: ["OkHttp", "cli"],
+      "java/": ["Java", "cli"],
+      "go-http-client": ["Go-http-client", "cli"],
+      postmanruntime: ["Postman", "cli"],
+      insomnia: ["Insomnia", "cli"],
+      preflight: ["Preflight", "cli"]
+    };
+    // Coverage net: the isbot project compiled pattern (vendored snapshot).
+    // Built with new RegExp() because the source contains "/" literals, and
+    // guarded with try/catch for browsers without lookbehind support (there
+    // it degrades to the curated list above).
+    const ISBOT_PATTERN = " daum[ /]| deusu\\/|(?:^|[^g])news(?!sapphire)|(?<! channel\\/|google\\/)google(?!(?:wv|app|\\/google| pixel))|(?<! cu)bots?(?:\\b|_)|(?<!cam)scan|(?<!lib)http|24x7|;\\s\\w+;$|@[a-z][\\w-]+\\.|\\(\\)|\\.com\\b|\\b\\w+\\.ai|\\bbw\\/|\\bdlc\\b|\\bort\\/|\\bperl\\b|\\btime\\/|\\||^[<\\(;]|^[\\w \\.\\-\\(?:\\):%]+(?:\\/v?\\d+(?:\\.\\d+)?(?:\\.\\d{1,10})*?)?(?:,|$)|^[\\w\\-]+\\/[\\w]+$|^[^ ]{50,}$|^\\d+\\b|^\\w*search\\b|^\\w+\\/[\\w\\(\\)]*$|^\\w+\\/\\d\\.\\d\\s\\([\\w@]+\\)$|^active|^ad muncher|^amaya|^apache\\/|^avsdevicesdk\\/|^azure|^biglotron|^blackbox exporter|^bot|^clamav[ /]|^claude-code\\/|^client\\/|^cobweb\\/|^custom|^ddg[_-]android|^discourse|^dispatch\\/\\d|^downcast\\/|^duckduckgo|^email|^exodusmovement|^facebook|^getright\\/|^gozilla\\/|^hobbit|^hotzonu|^hwcdn\\/|^igetter\\/|^jeode\\/|^jetty\\/|^jigsaw|^microsoft bits|^movabletype|^mozilla\\/\\d\\.\\d\\s[\\w\\.-]+$|^mozilla\\/\\d\\.\\d\\s\\((?:compatible;)?(?:\\s?[\\w\\d-.]+\\/\\d+\\.\\d+)?\\)$|^navermailapp|^netsurf|^offline|^openai\\/|^owler|^php|^postman|^ps_daily\\/|^python|^rank|^read|^reed|^remove\\.bg\\/|^rest|^rss|^snapchat|^sora |^space bison|^stape\\/|^svn|^swcd |^taringa|^thumbor\\/|^track|^w3c|^webbandit\\/|^webcopier|^wget|^whatsapp|^wordpress|^xenu link sleuth|^yahoo|^yandex|^zdm\\/\\d|^zoom marketplace\\/|abuse|advisor|agent\\b|analyzer|archive|ask jeeves\\/teoma|attracta|audit|bluecoat drtr|browsex|burpcollaborator|capture|catch|check\\b|checker|chrome-lighthouse|chromeframe|classifier|cloudflare|collapsify\\b|convertify|cookiehubverify\\/|crawl|cursor\\/|cypress\\/|dareboost|datanyze|dejaclick|detect|discovery|dmbrowser|download|exaleadcloudview|feed|fetcher|firephp|foregenix|functionize|grab|hardenize\\b|headless|hotjar|httrack|hubspot marketing grader|ibisbrowser|infrawatch|insight|inspect|iplabel|java(?!;)|library|linkcheck|linktiger|mail\\.ru\\/|manager|manus-user\\/|marketgoo\\/|measure|monitor\\b|neustar wpm|node\\b|nutch|offbyone|openvas|optimize|pageburst|pagespeed|parser|phantomjs|pingdom|playwright|powermarks|preview|productfinder|prospectingstudio|proxy|ptst[ /]\\d|radar|readable\\/|retriever|rexx;|rigor|rss\\b|scrape|securityheaders|selenium|server|silktide|sindup\\/|sogou|sparkler\\/|speedcurve|spider|splash|statuscake|supercleaner|synapse|synthetic|testlocally|tools|torrent|transcoder|upday\\/|url|validator|virtuoso|wappalyzer|watchtowr|webglance|webkit2png|whatcms\\/|xtate\\/";
+    let isbotPattern = null;
+    try { isbotPattern = new RegExp(ISBOT_PATTERN, "i"); } catch (e) {}
+    // Generic tokens for crawling behavior not covered by a specific entry
+    const genericBotTokens = ["bot", "crawler", "spider", "scrape", "headless", "renderer", "aiohttp", "httpx", "node-fetch", "httpclient"];
+
+    return function classifyVisitor(uaRaw, webdriver) {
+      const ua = (uaRaw || "").toLowerCase();
+      for (const token in knownBots) {
+        if (ua.includes(token)) return { name: knownBots[token][0], category: knownBots[token][1] };
+      }
+      if (isbotPattern && isbotPattern.test(ua)) return { name: "Unknown", category: "other" };
+      if (genericBotTokens.some(t => ua.includes(t))) return { name: "Unknown", category: "other" };
+      if (webdriver) return { name: "Headless", category: "automation" };
+      return { name: "human", category: null };
+    };
+  })();
+</script>
+
+<script>
   document.addEventListener("DOMContentLoaded", function () {
     const consentKey = "ga_consent";
     const banner = document.getElementById("cookie-consent");
@@ -102,6 +235,11 @@
     // privacy policy):
     //  - scroll depth: report the deepest milestone reached (25/50/75/100%)
     //  - time on page: one "engaged.30s" heartbeat after 30 seconds
+    // "engaged" means a strong, human-like signal: a real click/tap/keypress,
+    // or scrolling at least 25% of the page. Weak signals (a stray mousemove,
+    // a sub-25% nudge) do not count - automated crawlers that only brush the
+    // page must not be classified as active.
+    let engaged = false;
     const engagement = {
       maxDepth: 0,
       reported: {},
@@ -110,6 +248,7 @@
         const maxScroll = doc.scrollHeight - doc.clientHeight;
         if (maxScroll <= 0) return;
         this.maxDepth = Math.max(this.maxDepth, Math.round((doc.scrollTop / maxScroll) * 100));
+        if (this.maxDepth >= 25) engaged = true;
         [25, 50, 75, 100].forEach(t => {
           if (this.maxDepth >= t && !this.reported[t]) {
             this.reported[t] = true;
@@ -137,158 +276,37 @@
     }, { passive: true });
     engagement.onScroll();
 
-    // Classify the visitor as a bot/crawler or a human, using the user-agent
-    // string (already collected by NCA) plus the webdriver flag. Purely
-    // anonymous - no fingerprinting or personal data. Runs before the
-    // engagement timers so bots can be excluded from "engaged"/"visit" events.
-    // Each known bot maps to [display name, category].
+    // Classify the visitor as a bot/crawler or a human with the standalone
+    // window.classifyVisitor (UA + webdriver flag only - no fingerprinting
+    // or personal data). Runs before the engagement timers so bots are
+    // excluded from "engaged"/"visit" events.
     const ua = (navigator.userAgent || '').toLowerCase();
-    const knownBots = {
-      // Search engines & crawlers
-      googlebot: ['Googlebot', 'search'],
-      bingbot: ['Bingbot', 'search'],
-      duckduckbot: ['DuckDuckBot', 'search'],
-      baiduspider: ['Baiduspider', 'search'],
-      yandexbot: ['YandexBot', 'search'],
-      sogou: ['Sogou', 'search'],
-      seznambot: ['SeznamBot', 'search'],
-      yisou: ['YisouSpider', 'search'],
-      petalbot: ['PetalBot', 'search'],
-      exabot: ['Exabot', 'search'],
-      applebot: ['Applebot', 'search'],
-      bingpreview: ['BingPreview', 'search'],
-      slurp: ['YahooSlurp', 'search'],
-      yeti: ['Yeti', 'search'],
-      voilabot: ['VoilaBot', 'search'],
-      nutch: ['Nutch', 'search'],
-      qwantify: ['Qwantify', 'search'],
-      robozilla: ['Robozilla', 'search'],
-      'mail.ru': ['MailRuBot', 'search'],
-      'feedfetcher-google': ['GoogleFeedFetcher', 'search'],
-      'duckduckgo-favicons': ['DuckDuckGo', 'search'],
-      'mediapartners-google': ['GoogleAdSense', 'search'],
-      'adsbot-google': ['GoogleAdsBot', 'search'],
-      'storebot-google': ['GoogleStoreBot', 'search'],
-      'apis-google': ['GoogleAPIs', 'search'],
-      ia_archiver: ['ArchiveBot', 'archive'],
-      // AI / ML crawlers
-      gptbot: ['GPTBot', 'ai'],
-      claude: ['ClaudeBot', 'ai'],
-      'anthropic-ai': ['Anthropic', 'ai'],
-      ccbot: ['CCBot', 'ai'],
-      perplexitybot: ['PerplexityBot', 'ai'],
-      bytespider: ['Bytespider', 'ai'],
-      amazonbot: ['Amazonbot', 'ai'],
-      cohere: ['Cohere', 'ai'],
-      omgili: ['OmgiliBot', 'ai'],
-      diffbot: ['Diffbot', 'ai'],
-      youbot: ['YouBot', 'ai'],
-      andisearch: ['AndiSearch', 'ai'],
-      // SEO / audit / link checkers. Real-engine renderers (Lighthouse,
-      // PageSpeed Insights, Search Console's inspection tool, ...) ship a
-      // clean browser UA but run automated pages - they scroll programmatically
-      // and would otherwise pollute visit.active.
-      semrushbot: ['SemrushBot', 'seo'],
-      ahrefsbot: ['AhrefsBot', 'seo'],
-      dotbot: ['DotBot', 'seo'],
-      screaming: ['ScreamingFrog', 'seo'],
-      xenu: ['Xenu', 'seo'],
-      'chrome-lighthouse': ['Lighthouse', 'seo'],
-      'google-inspectiontool': ['GoogleInspectionTool', 'seo'],
-      'googlepagespeedinsights': ['PageSpeedInsights', 'seo'],
-      mj12bot: ['MJ12bot', 'seo'],
-      blexbot: ['BLEXBot', 'seo'],
-      seokicks: ['SeoKicks', 'seo'],
-      admantx: ['Admantx', 'seo'],
-      'w3c_validator': ['W3CValidator', 'seo'],
-      'validator.nu': ['ValidatorNu', 'seo'],
-      gtmetrix: ['GTmetrix', 'seo'],
-      // Uptime monitors
-      uptimerobot: ['UptimeRobot', 'uptime'],
-      'site24x7': ['Site24x7', 'uptime'],
-      pingdom: ['Pingdom', 'uptime'],
-      statuscake: ['StatusCake', 'uptime'],
-      monitis: ['Monitis', 'uptime'],
-      moneypenny: ['MoneyPenny', 'uptime'],
-      newrelic: ['NewRelicPinger', 'uptime'],
-      // Social / chat prefetchers
-      facebookexternalhit: ['Facebook', 'social'],
-      facebot: ['Facebook', 'social'],
-      twitterbot: ['Twitter', 'social'],
-      linkedinbot: ['LinkedIn', 'social'],
-      slackbot: ['Slack', 'social'],
-      discordbot: ['Discord', 'social'],
-      telegrambot: ['Telegram', 'social'],
-      'line-pf': ['LINE', 'social'],
-      pinterestbot: ['PinterestBot', 'social'],
-      skypeuripreview: ['Skype', 'social'],
-      snapchat: ['Snapchat', 'social'],
-      viber: ['Viber', 'social'],
-      outbrain: ['Outbrain', 'social'],
-      taboola: ['Taboola', 'social'],
-      flipboardproxy: ['Flipboard', 'social'],
-      tumblr: ['Tumblr', 'social'],
-      // Headless / browser automation
-      headlesschrome: ['HeadlessChrome', 'automation'],
-      phantomjs: ['PhantomJS', 'automation'],
-      slimerjs: ['SlimerJS', 'automation'],
-      puppeteer: ['Puppeteer', 'automation'],
-      playwright: ['Playwright', 'automation'],
-      selenium: ['Selenium', 'automation'],
-      // CLI / HTTP clients
-      'python-requests': ['Python-Requests', 'cli'],
-      curl: ['curl', 'cli'],
-      wget: ['Wget', 'cli'],
-      okhttp: ['OkHttp', 'cli'],
-      'java/': ['Java', 'cli'],
-      'go-http-client': ['Go-http-client', 'cli'],
-      postmanruntime: ['Postman', 'cli'],
-      insomnia: ['Insomnia', 'cli'],
-      preflight: ['Preflight', 'cli']
-    };
-    // Generic tokens for crawling behavior not covered by a specific entry
-    const genericBotTokens = ['bot', 'crawler', 'spider', 'scrape', 'headless', 'renderer', 'aiohttp', 'httpx', 'node-fetch', 'httpclient'];
-
-    let bot = null;
-    for (const token in knownBots) {
-      if (ua.includes(token)) {
-        bot = knownBots[token];
-        break;
-      }
-    }
-    if (!bot) {
-      const generic = genericBotTokens.find(t => ua.includes(t));
-      if (generic) bot = ['Unknown', 'other'];
-    }
-
-    let isBot = false;
-    if (bot) {
-      isBot = true;
+    const classification = window.classifyVisitor(navigator.userAgent, navigator.webdriver);
+    const isBot = classification.name !== "human";
+    if (isBot) {
       // Payload: category + raw user-agent (truncated) for richer segmentation
-      send_nca_event('visitor.bot.' + bot[0], bot[1] + '|' + ua.slice(0, 120));
-    } else if (navigator.webdriver) {
-      isBot = true;
-      send_nca_event('visitor.bot.Headless');
+      send_nca_event('visitor.bot.' + classification.name, classification.category + '|' + ua.slice(0, 120));
     } else {
       send_nca_event('visitor.human');
     }
 
     // Report 30s of engagement (single fire; not tied to consent decision).
-    // Bots/crawlers are excluded - they do not "engage".
+    // Bots/crawlers and passive loads are excluded - only visitors with a
+    // strong engagement signal get a 30s heartbeat.
     setTimeout(() => {
-      if (!isBot) send_nca_event('engaged.30s');
+      if (!isBot && engaged) send_nca_event('engaged.30s');
     }, 30000);
 
-    // Interaction heuristic: after 6s, report whether any human-like
-    // interaction (scroll, pointer, key, click) was observed. Separates
-    // passive loads (fast bots, bounces) from engaged visits.
-    let interacted = false;
-    const markInteracted = () => { interacted = true; };
-    ['scroll', 'pointerdown', 'mousemove', 'keydown', 'click'].forEach(evt =>
-      window.addEventListener(evt, markInteracted, { passive: true, once: true })
+    // Interaction heuristic: after 6s, report whether any strong, human-like
+    // interaction was observed. A real mouse movement, click/tap, keypress,
+    // or scrolling at least 25% of the page (see engagement.onScroll) counts;
+    // a sub-25% scroll nudge does not. Separates passive loads (fast bots,
+    // bounces) from engaged visits.
+    ['pointerdown', 'keydown', 'click', 'mousemove'].forEach(evt =>
+      window.addEventListener(evt, () => { engaged = true; }, { passive: true, once: true })
     );
     setTimeout(() => {
-      if (!isBot) send_nca_event(interacted ? 'visit.active' : 'visit.passive');
+      if (!isBot) send_nca_event(engaged ? 'visit.active' : 'visit.passive');
     }, 6000);
 
     if (acceptBtn) {

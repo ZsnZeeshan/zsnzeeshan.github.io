@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   jekyll:
     image: jekyll/jekyll:latest
@@ -17,7 +15,11 @@ services:
     volumes:
       - ./:/srv/jekyll
     tty: true
-    command: bash -c "bundle install && ./script/cibuild"
+    # The bind-mounted repo is owned by the host user, but the image runs
+    # bundle exec as the "jekyll" user (uid 1000, HOME=/home/jekyll) via
+    # su-exec. Without this, git refuses the repo and the gemspec's
+    # `git ls-files` call (used by `gem build`) comes back empty.
+    command: bash -c "su-exec jekyll git config --global --add safe.directory /srv/jekyll && git config --global --add safe.directory /srv/jekyll && bundle install && ./script/cibuild"
     
 ###################################################
 # first time setup
