@@ -81,15 +81,42 @@ async function eventNames(page) {
   return page.evaluate(() => window.__events.map((a) => a[0]));
 }
 
+// Resolve a working Chrome binary. Prefer a system-installed browser (on
+// GitHub Actions ubuntu-latest that is /usr/bin/google-chrome, which matches
+// the runner's shared libraries) over the Chrome-for-Testing build puppeteer
+// downloaded (it can be newer than a CI image's libnss3/atk).
+async function findChrome() {
+  const candidates = [
+    process.env.PUPPETEER_EXECUTABLE_PATH,
+    "/usr/bin/google-chrome",
+    "/usr/bin/google-chrome-stable",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  ].filter(Boolean);
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  try {
+    const p = await puppeteer.executablePath();
+    if (p && fs.existsSync(p)) return p;
+  } catch {
+    // puppeteer has no bundled browser (e.g. when the download was skipped)
+  }
+  return null;
+}
+
+const chromePath = await findChrome();
 let browser;
 try {
-  browser = await puppeteer.launch({ headless: true });
+  browser = await puppeteer.launch({ headless: true, executablePath: chromePath || undefined });
+  if (chromePath) console.log(`Using Chrome: ${chromePath}`);
 } catch (err) {
-  // Chrome for Testing requires glibc; environments like the Alpine-based
-  // Jekyll docker image (musl) cannot run it. Skip cleanly there so the
-  // local `docker compose up cibuild` still passes - CI (Ubuntu, glibc)
-  // has Chrome and will run the full end-to-end test. Set NCA_E2E_REQUIRED=1
-  // to turn the skip into a hard failure.
+  // Chrome requires glibc; environments like the Alpine-based Jekyll docker
+  // image (musl) cannot run it. Skip cleanly there so the local
+  // `docker compose up cibuild` still passes. Set NCA_E2E_REQUIRED=1 to turn
+  // the skip into a hard failure.
   if (process.env.NCA_E2E_REQUIRED === "1") {
     console.error("FAIL: could not launch headless Chrome:", err.message);
     process.exit(1);

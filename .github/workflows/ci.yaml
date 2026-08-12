@@ -16,3 +16,7 @@ jobs:
         run: script/bootstrap
       - name: test
         run: script/cibuild
+        env:
+          # The end-to-end browser test must actually run on CI (it uses the
+          # runner's preinstalled Chrome); fail loudly instead of skipping.
+          NCA_E2E_REQUIRED: "1"
