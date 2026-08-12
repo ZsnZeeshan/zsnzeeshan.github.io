@@ -14,9 +14,10 @@ node test/bot-e2e.test.mjs
 
 # Run HTML-Proofer
 # Ignore the NCA script for SRI check since it has no provided integrity hash.
-# Also ignore transient 503s from GitHub (it rate-limits automated link
-# checkers; the checked profile links are otherwise valid).
- bundle exec htmlproofer ./_site --check-html --check-sri --http-status-ignore 503 --url-ignore 'https://nocookieanalytics.com/latest.js','/linkedin.com/'
+# Ignore transient 503s from GitHub (it rate-limits automated link checkers).
+# Let Typhoeus follow redirects and allow 30s per request so slow-but-live
+# sites (e.g. www.siliconpk.com -> siliconpk.com) don't fail the build.
+ bundle exec htmlproofer ./_site --check-html --check-sri --http-status-ignore 503 --typhoeus-config '{"followlocation":true,"timeout":30}' --url-ignore 'https://nocookieanalytics.com/latest.js','/linkedin.com/'
 
 # Run RuboCop for code/style linting
 bundle exec rubocop -D --config .rubocop.yml
