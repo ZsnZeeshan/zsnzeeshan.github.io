@@ -2,7 +2,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="google-site-verification" content="s0EXQeM2snas5wN8bLZP-OIWsv6faDnYrkryZGwqci4" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+{% assign revision = site.github.build_revision | default: site.time | date: '%s' %}
+<link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: revision | relative_url }}">
 <link rel="icon" href="{{ '/assets/favicon.png' | relative_url }}">
 {% seo %}
 {% include head-analytics.html %}

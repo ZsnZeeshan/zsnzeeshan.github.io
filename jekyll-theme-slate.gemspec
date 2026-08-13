@@ -3,7 +3,7 @@
 Gem::Specification.new do |s|
   s.name          = "jekyll-theme-slate"
   s.version       = "0.2.0"
-  s.license       = "CC0-1.0"
+  s.license       = "MIT"
   s.authors       = ["Jason Costello", "GitHub, Inc."]
   s.email         = ["opensource+jekyll-theme-slate@github.com"]
   s.homepage      = "https://github.com/pages-themes/slate"

@@ -11,6 +11,7 @@ npm ci --silent
 node test/nca-events.test.mjs
 node test/bot-coverage.test.mjs
 node test/bot-e2e.test.mjs
+node test/source-regression.test.mjs
 
 # Run HTML-Proofer
 # Ignore the NCA script for SRI check since it has no provided integrity hash.

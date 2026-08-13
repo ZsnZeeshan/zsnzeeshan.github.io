@@ -51,7 +51,7 @@ My approach is rooted in deep academic understanding and extensive industrial ex
   <iframe 
     src="https://docs.google.com/forms/d/e/1FAIpQLSds-OZX9BOVR5sxh6GATk45k0_Ty0z8bR72SBhiIVA2BLtbuQ/viewform?embedded=true&hl=en" 
     width="100%" 
-    height="1024" 
+    height="800" 
     frameborder="0" 
     marginheight="0" 
     marginwidth="0">

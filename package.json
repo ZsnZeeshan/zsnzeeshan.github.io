@@ -7,7 +7,8 @@
     "test:nca": "node test/nca-events.test.mjs",
     "test:bot": "node test/bot-coverage.test.mjs",
     "test:e2e": "node test/bot-e2e.test.mjs",
-    "test": "npm run test:nca && npm run test:bot && npm run test:e2e"
+    "test:source": "node test/source-regression.test.mjs",
+    "test": "npm run test:nca && npm run test:bot && npm run test:e2e && npm run test:source"
   },
   "devDependencies": {
     "jsdom": "^22.1.0",
