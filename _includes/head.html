@@ -6,4 +6,5 @@
 <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: revision | relative_url }}">
 <link rel="icon" href="{{ '/assets/favicon.png' | relative_url }}">
 {% seo %}
+{% if page.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
 {% include head-analytics.html %}

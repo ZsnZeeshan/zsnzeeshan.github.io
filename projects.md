@@ -5,8 +5,10 @@ order: 2
 title: Engineering Projects Portfolio
 description: From low-level hardware to cloud — bare-metal embedded, IIoT gateways, BLE sensor networks, high-performance data acquisition, and cloud-connected systems. Projects by Muhammad Zeeshan Arshad.
 image:
-  path: "/assets/images/icon2.webp"
+  path: "/assets/images/icon2.jpg"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
+  width: 1280
+  height: 720
 last_modified_at: 2026-08-09
 #permalink: /projects/
 ---

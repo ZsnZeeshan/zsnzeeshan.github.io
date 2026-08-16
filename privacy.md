@@ -5,8 +5,10 @@ title: Privacy Policy
 order: 4
 description: This page specifies the privacy policy of this website regarding monitoring of traffic based on GDPR compliance
 image:
-  path: "/assets/images/icon2.webp"
+  path: "/assets/images/icon2.jpg"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
+  width: 1280
+  height: 720
 sitemap: true
 last_modified_at: 2026-08-09
 ---

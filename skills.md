@@ -5,8 +5,10 @@ order: 1
 title: Skills
 description: Showcasing practical expertise in embedded systems, IoT, automation, cloud tools, and software engineering, emphasizing hands‑on development, problem‑solving, and modern technical capabilities.
 image:
-  path: "/assets/images/icon2.webp"
+  path: "/assets/images/icon2.jpg"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
+  width: 1280
+  height: 720
 last_modified_at: 2026-07-04
 ---
 

@@ -18,16 +18,14 @@ node test/source-regression.test.mjs
 # Ignore transient 503s from GitHub (it rate-limits automated link checkers).
 # Let Typhoeus follow redirects and allow 30s per request so slow-but-live
 # sites (e.g. www.siliconpk.com -> siliconpk.com) don't fail the build.
- bundle exec htmlproofer ./_site --check-html --check-sri --http-status-ignore 503 --typhoeus-config '{"followlocation":true,"timeout":30}' --url-ignore 'https://nocookieanalytics.com/latest.js','/linkedin.com/'
+# The 404 page's canonical URL always returns HTTP 404 by design, so ignore it.
+ bundle exec htmlproofer ./_site --check-html --check-sri --http-status-ignore 503 --typhoeus-config '{"followlocation":true,"timeout":30}' --url-ignore 'https://nocookieanalytics.com/latest.js','/linkedin.com/','https://zsnzeeshan.github.io/404.html'
 
 # Run RuboCop for code/style linting
 bundle exec rubocop -D --config .rubocop.yml
 
 # Optional: your custom HTML validation script
 bundle exec script/validate-html
-
-# TODO:Run Lighthouse CI against the built site 
-#lhci autorun --collect.staticDistDir=_site
 
 # Build the Slate gem
 gem build jekyll-theme-slate.gemspec

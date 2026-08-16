@@ -5,8 +5,10 @@ order: 0
 title: "Muhammad Zeeshan Arshad - R&D Software Expert, Embedded & IoT"
 description: "R&D Engineer at Advantest | 8+ Yrs Experience | Embedded & IoT Specialist | Edge AI & Signal Processing | C/C++, Python | Industry 4.0, SDR & ATE | TUM Alumni"
 image:
-  path: "/assets/images/icon2.webp"
+  path: "/assets/images/icon2.jpg"
   alt: "Personal Logo of Muhammad Zeeshan Arshad"
+  width: 1280
+  height: 720
 last_modified_at: 2026-08-09
 ---
 

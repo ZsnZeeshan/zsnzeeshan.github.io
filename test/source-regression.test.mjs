@@ -46,6 +46,15 @@ function frontMatterValue(fm, key) {
   return line.slice(line.indexOf(":") + 1).trim();
 }
 
+function imageValue(fm, key) {
+  const lines = fm.split("\n");
+  const start = lines.findIndex((l) => l.trim() === "image:");
+  if (start === -1) return null;
+  const line = lines.slice(start + 1).find((l) => l.trim().startsWith(key + ":"));
+  if (!line) return null;
+  return line.slice(line.indexOf(":") + 1).trim().replace(/^["']|["']$/g, "");
+}
+
 // ===========================================================================
 // Part A: source files
 // ===========================================================================
@@ -140,16 +149,69 @@ assert(iframeHeight !== null, "contact iframe declares a height");
 assert(iframeHeight === null || iframeHeight[1] !== "1024", "contact iframe height is not 1024px");
 assert(!privacyMd.includes('href=""'), "privacy withdraw-consent link has no empty href");
 
+console.log("Social sharing checks:");
+for (const [name, content] of navPages) {
+  const fm = frontMatter(content);
+  assert(imageValue(fm, "path") === "/assets/images/icon2.jpg", `${name} og:image uses a JPG`);
+  assert(imageValue(fm, "width") === "1280", `${name} og:image declares width 1280`);
+  assert(imageValue(fm, "height") === "720", `${name} og:image declares height 720`);
+}
+
+console.log("Footer, 404 & link checks:");
+const footer = read("_includes/footer.html");
+assert(footer.includes("{{ '/privacy.html' | relative_url }}"), "footer privacy link uses | relative_url");
+assert(!footer.includes('href="/privacy.html"'), "footer has no hardcoded /privacy.html href");
+console.log("External link checks:");
+const externalLinkFiles = [
+  ...fs.readdirSync(new URL("_includes/", ROOT)).map((f) => `_includes/${f}`),
+  "index.md",
+  "skills.md",
+  "projects.md",
+  "contact.md",
+  "privacy.md",
+  "404.html",
+];
+let blankTargetCount = 0;
+for (const file of externalLinkFiles) {
+  const content = read(file);
+  for (const match of content.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
+    blankTargetCount += 1;
+    const tag = match[0];
+    const rel = tag.match(/\brel=(["'])(.*?)\1/);
+    const hasNoopener = !!rel && rel[2].split(/\s+/).includes("noopener");
+    const hasNoreferrer = !!rel && rel[2].split(/\s+/).includes("noreferrer");
+    assert(
+      hasNoopener && hasNoreferrer,
+      `${file}: target="_blank" anchor uses rel="noopener noreferrer"`
+    );
+  }
+}
+assert(blankTargetCount > 0, "at least one target=\"_blank\" anchor was checked");
+assert(head.includes("page.noindex"), "head.html supports page.noindex");
+const notFound = read("404.html");
+assert(notFound.includes("noindex: true"), "404.html sets noindex");
+assert(notFound.includes("sitemap: false"), "404.html is excluded from the sitemap");
+
 console.log("Config & file checks:");
 const config = read("_config.yml");
 assert(config.includes("- archive"), "_config.yml excludes the archive directory");
+assert(/^url:\s*"https:\/\/zsnzeeshan\.github\.io"/m.test(config), "_config.yml sets site.url");
 assert(!fs.existsSync(new URL(".travis.yml", ROOT)), ".travis.yml has been removed");
 assert(read(".gitignore").includes("Gemfile.lock"), ".gitignore lists Gemfile.lock");
-const tracked = spawnSync("git", ["ls-files", "Gemfile.lock"], { encoding: "utf8" });
-if (tracked.error) {
-  console.log("  SKIP: git not available, skipping Gemfile.lock tracking check");
-} else {
-  assert(tracked.stdout.trim() === "", "Gemfile.lock is not tracked in git");
+assert(read(".gitignore").includes(".DS_Store"), ".gitignore lists .DS_Store");
+const compose = read("docker-compose.yml");
+assert(
+  compose.split("\n").filter((l) => l.includes("git config --global --add safe.directory")).length === 1,
+  "docker-compose sets git safe.directory once"
+);
+assert(!read("script/cibuild").includes("TODO"), "script/cibuild has no stale TODO");
+for (const path of ["Gemfile.lock", ".DS_Store"]) {
+  const tracked = spawnSync("git", ["ls-files", path], { encoding: "utf8" });
+  if (tracked.error) {
+    console.log(`  SKIP: git not available, skipping ${path} tracking check`);
+  } else {
+    assert(tracked.stdout.trim() === "", `${path} is not tracked in git`);
+  }
 }
 
 // ===========================================================================
@@ -160,6 +222,15 @@ console.log("Built site checks:");
 assert(!fs.existsSync(new URL("archive/", SITE)), "_site/archive is excluded from the build");
 const builtIndex = fs.readFileSync(new URL("index.html", SITE), "utf8");
 assert(/style\.css\?v=[0-9a-f]+/.test(builtIndex), "built CSS link carries a ?v= revision");
+assert(fs.existsSync(new URL("404.html", SITE)), "built _site has a 404.html");
+assert(
+  builtIndex.includes('property="og:image:width" content="1280"'),
+  "built og:image carries width/height"
+);
+assert(
+  (builtIndex.match(/property="og:image"/g) || []).length === 1,
+  "og:image is emitted exactly once"
+);
 const builtPrivacy = fs.readFileSync(new URL("privacy.html", SITE), "utf8");
 assert(builtPrivacy.includes("GDPR"), "built privacy page says GDPR");
 
